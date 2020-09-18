@@ -12,6 +12,11 @@ const NavBar = ({ children }) => {
             </Link>
           </li>
           <li className="nav-item">
+            <Link className="nav-link" to="/ad/my">
+              My ads
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link className="nav-link" to="/ad/find">
               Find ad
             </Link>

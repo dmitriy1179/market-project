@@ -7,7 +7,9 @@ import ProtectedRoute from "./shared/components/protected-route";
 import HomeScreen from "./screens/home";
 import LoginScreen from "./screens/login";
 import AdFind from "./screens/ad-find" 
-import PostAdUswer from "./screens/ad-post"
+import PostAdUser from "./screens/ad-post"
+import MyAdsScreen from "./screens/ad-my"
+import MyAdOneSreen from "./screens/ad-my-one"
 
 const NotFound = () => <div> Page not found</div>;
 
@@ -23,11 +25,15 @@ function App() {
             <ProtectedRoute exact path="/ad/find" redirectTo="/login">
               <AdFind />
             </ProtectedRoute>
-
-            <ProtectedRoute exact path="/ad/post" redirectTo="/login">
-              <PostAdUswer />
+            <ProtectedRoute exact path="/ad/my" redirectTo="/login">
+              <MyAdsScreen />
             </ProtectedRoute>
-
+            <ProtectedRoute exact path="/ad/my/:_id" redirectTo="/login">
+              <MyAdOneSreen />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/ad/post" redirectTo="/login">
+              <PostAdUser />
+            </ProtectedRoute>
             <Route path="/login" exact>
               <LoginScreen />
             </Route>

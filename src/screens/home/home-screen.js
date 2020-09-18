@@ -1,10 +1,10 @@
 import React from "react";
 import API from "../../API";
-import Spinner from "../../shared/components/spinner";
 import { gql } from "graphql-request";
 import NavBar from "./../../shared/components/navbar";
 import Logout from "./../../shared/components/logout";
 import jwt_decode from "jwt-decode";
+import StatusResolver from "./../../shared/components/statusResolver"
 
 const query = gql`
   query adFind($query: String) {
@@ -38,28 +38,11 @@ const query = gql`
   }
 `;
 
-const StatusResolverMyAds = ({ status, noData, children }) => {
-  if (status === "searching") {
-    return <Spinner />;
-  }
-  if (noData) {
-    return <span className="text-info">You have no ads loaded</span>;
-  }
-  if (status === "rejected") {
-    return <span className="text-danger">Something went wrong</span>;
-  }
-  if (status === "idle") {
-    return null;
-  }
-  if (status === "resolved") {
-    return children;
-  }
-};
-
 const HomeScreen = () => {
   const token = localStorage.getItem("token")
   const { sub } = jwt_decode(token);
   const { id } = sub
+  console.log("sub", sub)
   console.log("decode", id)
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
@@ -96,9 +79,10 @@ const HomeScreen = () => {
         <Logout />
       </NavBar>
       <div className="col-sm-12 my-3">
-        <StatusResolverMyAds
+        <StatusResolver
           noData={result !== null && result.length === 0}
           status={status}
+          content="You have no ads loaded"
         >
           <ul>
             {result === null ? null : 
@@ -131,7 +115,7 @@ const HomeScreen = () => {
               ))
             }
           </ul>
-        </StatusResolverMyAds>
+        </StatusResolver>
       </div>
     </div>
   )

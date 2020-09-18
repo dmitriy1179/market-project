@@ -1,55 +1,27 @@
 import React from "react";
 import API from "../../API";
-import Spinner from "../../shared/components/spinner";
 import { gql } from "graphql-request";
 import NavBar from "../../shared/components/navbar";
 import Logout from "../../shared/components/logout";
+import StatusResolver from "../../shared/components/statusResolver"
 
 const postAd = gql`
-  mutation post($title: String!, $description: String!, $imageInput: ImageInput, $tags: String, $address: String, $price: Float!) {
+  mutation post($title: String!, $description: String!, $images: [ImageInput], $tags: [String], $address: String, $price: Float!) {
     AdUpsert(ad: {
       title: $title,
       description: $description,
-      images: [$imageInput],
-      tags: [$tags]
+      images: $images,
+      tags: $tags
       address: $address,
       price: $price
 
     }) {
       _id
-      owner {
-        _id
-        login
-        nick
-      }
-      title
-      createdAt
-      tags
-      address
-      images {
-        url
-        _id
-      }
     }
   }
 `;
 
-const PostAdStatusResolver = ({ status, children }) => {
-  if (status === "searching") {
-    return <Spinner />;
-  }
-  if (status === "rejected") {
-    return <span className="text-danger">Something went wrong</span>;
-  }
-  if (status === "idle") {
-    return null;
-  }
-  if (status === "resolved") {
-    return children;
-  }
-};
-
-const PostAdUswer = () => {
+const PostAdUser = () => {
   const [values, setValues] = React.useState({});
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
@@ -71,6 +43,7 @@ const PostAdUswer = () => {
   const onChangeInputImage = (e) => {
     const arrImages = [];
     for (let i=0; i < e.target.files.length; i++) {
+      setStatus("searching");
       const formData = new FormData();
       formData.append("photo", e.target.files[i]);
   
@@ -86,7 +59,8 @@ const PostAdUswer = () => {
           console.log("UPLOAD RESULT", json._id);
           arrImages.push({"_id": json._id})
           console.log("arr", arrImages)
-         
+          setStatus("idle");
+        
         })
 
     }
@@ -145,7 +119,6 @@ const PostAdUswer = () => {
             />
           </div>
         </div>
-
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">ImageInput</label>
           <div className="col-sm-10">
@@ -153,7 +126,7 @@ const PostAdUswer = () => {
               type="file"
               className="form-control-file"
               placeholder="ImageInput"
-              //name="photo"
+              name="imageInput"
               onChange={onChangeInputImage}
               multiple
             />
@@ -200,12 +173,14 @@ const PostAdUswer = () => {
 
         <button className="btn btn-primary">Post</button>
       </form>
-      <PostAdStatusResolver
+      <StatusResolver
         status={status}
         >
-        <span className="text-primary">OK!</span>      
-      </PostAdStatusResolver>
+        <span className="text-primary pt-3 mt-3">
+          Your ad uploaded successfully
+        </span>      
+      </StatusResolver>
     </div>
   );
 };
-export default PostAdUswer
+export default PostAdUser

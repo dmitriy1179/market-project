@@ -1,9 +1,9 @@
 import React from "react";
 import API from "../../API";
-import Spinner from "../../shared/components/spinner";
 import { gql } from "graphql-request";
 import NavBar from "../../shared/components/navbar";
 import Logout from "../../shared/components/logout";
+import StatusResolver from "./../../shared/components/statusResolver"
 
 
 const query = gql`
@@ -38,23 +38,6 @@ const query = gql`
   }
 `;
 
-const StatusResolver = ({ status, noData, children }) => {
-  if (status === "searching") {
-    return <Spinner />;
-  }
-  if (noData) {
-    return <span className="text-info">No Data</span>;
-  }
-  if (status === "rejected") {
-    return <span className="text-danger">Something went wrong</span>;
-  }
-  if (status === "idle") {
-    return null;
-  }
-  if (status === "resolved") {
-    return children;
-  }
-};
 const AdFind = () => {
   const [value, setValue] = React.useState(null);
   const [result, setResult] = React.useState(null);
