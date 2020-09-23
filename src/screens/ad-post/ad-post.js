@@ -4,6 +4,10 @@ import { gql } from "graphql-request";
 import NavBar from "../../shared/components/navbar";
 import Logout from "../../shared/components/logout";
 import StatusResolver from "../../shared/components/statusResolver"
+import ReactTagInput from "@pathofdev/react-tag-input"
+import "@pathofdev/react-tag-input/build/index.css";
+import { Redirect } from "react-router-dom"
+
 
 const postAd = gql`
   mutation post($title: String!, $description: String!, $images: [ImageInput], $tags: [String], $address: String, $price: Float!) {
@@ -22,7 +26,9 @@ const postAd = gql`
 `;
 
 const PostAdUser = () => {
-  const [values, setValues] = React.useState({});
+  const [values, setValues] = React.useState({
+    "tags": ["sport", "entertainment", "health", "antiques", "technology"]
+  });
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
 
@@ -40,10 +46,19 @@ const PostAdUser = () => {
     console.log("values", values)
   };
 
+  const onChangeTagsInput = (newTags) => {
+    setValues((prev) => ({
+      ...prev,
+      "tags": [...newTags]
+    }));
+    console.log("values", values)
+  }
+
   const onChangeInputImage = (e) => {
+    setStatus("searching");
     const arrImages = [];
+    const arrLength = e.target.files.length
     for (let i=0; i < e.target.files.length; i++) {
-      setStatus("searching");
       const formData = new FormData();
       formData.append("photo", e.target.files[i]);
   
@@ -59,18 +74,17 @@ const PostAdUser = () => {
           console.log("UPLOAD RESULT", json._id);
           arrImages.push({"_id": json._id})
           console.log("arr", arrImages)
-          setStatus("idle");
+          if (arrImages.length === arrLength) {
+            setStatus("idle");
+          } 
         
         })
-
     }
     setValues((prev) => ({
       ...prev,
       "images": arrImages
     }));
     console.log("values", values)
-    
-
   };
 
   const onSubmit = (e) => {
@@ -132,16 +146,12 @@ const PostAdUser = () => {
             />
           </div>
         </div>
-
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Tags</label>
           <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Tags"
-              name="tags"
-              onChange={onChange}
+            <ReactTagInput 
+              tags={values.tags}
+              onChange={(newTags) => onChangeTagsInput(newTags)}
             />
           </div>
         </div>
@@ -170,15 +180,12 @@ const PostAdUser = () => {
             />
           </div>
         </div>
-
-        <button className="btn btn-primary">Post</button>
+        <button className="btn btn-primary" disabled={status === "searching"}>Post</button>
       </form>
       <StatusResolver
         status={status}
         >
-        <span className="text-primary pt-3 mt-3">
-          Your ad uploaded successfully
-        </span>      
+          <Redirect to="/ad/curUser" />
       </StatusResolver>
     </div>
   );

@@ -1,8 +1,6 @@
 import React from "react";
 import "./styles.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store/configure-store";
 import ProtectedRoute from "./shared/components/protected-route";
 import HomeScreen from "./screens/home";
 import LoginScreen from "./screens/login";
@@ -16,33 +14,31 @@ const NotFound = () => <div> Page not found</div>;
 function App() {
   return (
     <div className="App">
-      <Provider store={store}>
-        <Router>
-          <Switch>
-            <ProtectedRoute exact path="/" redirectTo="/login">
-              <HomeScreen />
-            </ProtectedRoute>
-            <ProtectedRoute exact path="/ad/find" redirectTo="/login">
-              <AdFind />
-            </ProtectedRoute>
-            <ProtectedRoute exact path="/ad/my" redirectTo="/login">
-              <MyAdsScreen />
-            </ProtectedRoute>
-            <ProtectedRoute exact path="/ad/my/:_id" redirectTo="/login">
-              <MyAdOneSreen />
-            </ProtectedRoute>
-            <ProtectedRoute exact path="/ad/post" redirectTo="/login">
-              <PostAdUser />
-            </ProtectedRoute>
-            <Route path="/login" exact>
-              <LoginScreen />
-            </Route>
-            <Route>
-              <NotFound />
-            </Route>
-          </Switch>
-        </Router>
-      </Provider>
+      <Router>
+        <Switch>
+          <ProtectedRoute exact path="/" redirectTo="/login">
+            <HomeScreen />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/ad/find" redirectTo="/login">
+            <AdFind />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/ad/curUser" redirectTo="/login">
+            <MyAdsScreen />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/ad/curUser/:_id" redirectTo="/login">
+            <MyAdOneSreen />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/ad/post" redirectTo="/login">
+            <PostAdUser />
+          </ProtectedRoute>
+          <Route path="/login" exact>
+            <LoginScreen />
+          </Route>
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

@@ -12,7 +12,7 @@ const NavBar = ({ children }) => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/ad/my">
+            <Link className="nav-link" to="/ad/curUser">
               My ads
             </Link>
           </li>

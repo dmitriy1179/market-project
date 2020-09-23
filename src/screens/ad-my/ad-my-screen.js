@@ -95,7 +95,7 @@ const AdItem = ({_id, images, title, createdAt, price, onClick}) => {
             className="btn btn-secondary btn-sm mr-3"
             role="button">Edit
           </Link>
-          <Link to={`/ad/my/${_id}`}
+          <Link to={`/ad/curUser/${_id}`}
             style={{width:"70px"}}
             className="btn btn-outline-secondary btn-sm"
             role="button">View
@@ -112,7 +112,7 @@ const MyAdsScreen = () => {
   const { id } = sub
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
-  const [delAd, setDelAD] = React.useState(false)
+  const [isDelAd, setIsDelAD] = React.useState(false)
 
   const onClickDelete = async (adId) => {
     console.log("adId", adId)
@@ -122,7 +122,7 @@ const MyAdsScreen = () => {
       setStatus("searching");
       const res = await API.request(deleteAdMutation, adIdDel)
       console.log("resDel", res)
-      setDelAD(!delAd)
+      setIsDelAD(!isDelAd)
       setStatus("resolved");
  
       } catch (e) {
@@ -152,7 +152,7 @@ const MyAdsScreen = () => {
   };
   React.useEffect(() => {
     searchUserAd()
-  }, [delAd])
+  }, [isDelAd])
 
   console.log(result, "result", result !== null && result.length !== 0);
 

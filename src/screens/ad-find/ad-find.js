@@ -24,7 +24,21 @@ const query = gql`
           nick
         }
         text
+        answers {
+          _id
+          owner {
+            nick
+          }
+          text
         }
+        answerTo {
+          _id
+          owner {
+            nick
+          }
+          text
+        }
+      }
       createdAt
       title
       tags
