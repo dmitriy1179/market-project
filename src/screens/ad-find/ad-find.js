@@ -4,7 +4,7 @@ import { gql } from "graphql-request";
 import NavBar from "../../shared/components/navbar";
 import Logout from "../../shared/components/logout";
 import StatusResolver from "./../../shared/components/statusResolver"
-
+import AdItem from "../../shared/components/ad-item"
 
 const query = gql`
   query adFind($query: String) {
@@ -101,31 +101,7 @@ const AdFind = () => {
           <ul>
             {result === null ? null : 
               result.map((ad) => (
-                <li key={ad._id} className="border my-3 mx-auto w-75 p-3">
-                  <div><h2>{ad.title}</h2></div>
-                  <div className="text-break">{ad.description}</div>
-                  <div>
-                    {ad.images === null || ad.images.length === 0 ? null : (
-                      ad.images[0].url === null ? null :
-                      <ul className="d-flex justify-content-center">
-                        {ad.images.map((image, index) => (
-                          image.url === null ? null :
-                          <li key={index}>
-                            <img src={`http://marketplace.asmer.fs.a-level.com.ua/${image.url}`} alt="picture" style={{height:"100px"}}/>
-                          </li>
-                          ))
-                        }  
-                      </ul>
-                      )
-                    }
-                  </div>
-                  <div>{`${ad.price} грн.`}</div>
-                  <div>Posted: {new Date(ad.createdAt/1).toLocaleDateString()}</div>
-                  <div>Address: {ad.address}</div>
-                  <div>
-                    Owner: {ad.owner.login}, phones: {ad.owner.phones}
-                  </div>
-                </li>
+                <AdItem key={ad._id} {...ad}/>
               ))
             }
           </ul>

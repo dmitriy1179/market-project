@@ -1,5 +1,7 @@
 import React from "react";
 import Spinner from "./spinner"
+import { Redirect } from "react-router-dom";
+
 
 const StatusResolver = ({ status, noData, content, children }) => {
   if (status === "searching") {
@@ -16,6 +18,9 @@ const StatusResolver = ({ status, noData, content, children }) => {
   }
   if (status === "resolved") {
     return children;
+  }
+  if (status === "deleted") {
+    return <Redirect to="/ad/curUser" />
   }
 };
 

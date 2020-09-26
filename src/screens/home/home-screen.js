@@ -3,10 +3,12 @@ import API from "../../API";
 import { gql } from "graphql-request";
 import NavBar from "./../../shared/components/navbar";
 import Logout from "./../../shared/components/logout";
+import AdItem from "../../shared/components/ad-item"
 import jwt_decode from "jwt-decode";
+import { Link } from "react-router-dom";
 import StatusResolver from "./../../shared/components/statusResolver"
 
-const query = gql`
+const myAd = gql`
   query adFind($query: String) {
     AdFind(query: $query) {
       _id
@@ -38,20 +40,43 @@ const query = gql`
   }
 `;
 
+const deleteAdMutation = gql`
+  mutation deleteAD($adId: ID) {
+    AdDelete(ad: {
+      _id: $adId
+     }) {
+      _id
+    }
+  }
+`;
+
 const HomeScreen = () => {
   const token = localStorage.getItem("token")
   const { sub } = jwt_decode(token);
   const { id } = sub
-  console.log("sub", sub)
-  console.log("decode", id)
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
+  const [isDelAd, setIsDelAD] = React.useState(false)
+
+  const onClickDelete = async (adId) => {
+    console.log("adId", adId)
+    const adIdDel = {"_id": adId}
+    console.log("adIdDel", adIdDel)
+    try {
+      setStatus("searching");
+      const res = await API.request(deleteAdMutation, adIdDel)
+      console.log("resDel", res)
+      setIsDelAD(!isDelAd)
+      setStatus("resolved");
+      } catch (e) {
+        setStatus("rejected");
+      }
+  }
 
   const searchUserAd = () => {
     try {
-      console.log("try", id)
       setStatus("searching");
-        API.request(query, {
+        API.request(myAd, {
           query: JSON.stringify([
             {
               ___owner: id
@@ -69,7 +94,7 @@ const HomeScreen = () => {
   };
   React.useEffect(() => {
     searchUserAd()
-  }, [])
+  }, [isDelAd])
 
   console.log(result, "result", result !== null && result.length !== 0);
 
@@ -87,31 +112,20 @@ const HomeScreen = () => {
           <ul>
             {result === null ? null : 
               result.map((ad) => (
-                <li key={ad._id} className="border my-3 mx-auto w-75 p-3">
-                  <div><h2>{ad.title}</h2></div>
-                  <div className="text-break">{ad.description}</div>
-                  <div>
-                    {ad.images === null || ad.images.length === 0 ? null : (
-                      ad.images[0].url === null ? null :
-                      <ul className="d-flex justify-content-center">
-                        {ad.images.map((image, index) => (
-                          image.url === null ? null :
-                          <li key={index}>
-                            <img src={`http://marketplace.asmer.fs.a-level.com.ua/${image.url}`} alt="picture" style={{height:"100px"}}/>
-                          </li>
-                          ))
-                        }  
-                      </ul>
-                      )
-                    }
-                  </div>
-                  <div>{`${ad.price} грн.`}</div>
-                  <div>Posted: {new Date(ad.createdAt/1).toLocaleDateString()}</div>
-                  <div>Address: {ad.address}</div>
-                  <div>
-                    Owner: {ad.owner.login}, phones: {ad.owner.phones}
-                  </div>
-                </li>
+                <AdItem key={ad._id} {...ad}>
+                  <button type="button"
+                    className="btn btn-outline-danger btn-sm mr-3"
+                    style={{width:"70px"}}
+                    onClick = {() => onClickDelete(ad._id)}
+                  >
+                  Delete
+                  </button>
+                  <Link to={`/ad/curUser/edit/${ad._id}`}
+                    style={{width:"70px"}}
+                    className="btn btn-secondary btn-sm mr-3"
+                    role="button">Edit
+                  </Link>
+                </AdItem>  
               ))
             }
           </ul>

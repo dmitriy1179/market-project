@@ -7,7 +7,7 @@ import ViewImages from "../../shared/components/view-images"
 import AdItemOne from "../../shared/components/ad-item-one"
 import StatusResolver from "../../shared/components/statusResolver"
 import camera from "../../shared/images/camera.png"
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 
 const myAdOne = gql`
   query adFindOne($query: String) {
@@ -56,6 +56,7 @@ const MyAdOneSreen = () => {
 
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
+  const [isDelAd, setIsDelAD] = React.useState(false)
 
   const onClickDelete = async (adId) => {
     console.log("adId", adId)
@@ -65,7 +66,8 @@ const MyAdOneSreen = () => {
       setStatus("searching");
       const res = await API.request(deleteAdMutation, adIdDel)
       console.log("resDel", res)
-      setStatus("deleted");
+      setIsDelAD(true)
+      setStatus("resolved");
     } catch (e) {
       setStatus("rejected");
     }
@@ -91,11 +93,16 @@ const MyAdOneSreen = () => {
   };
 
   React.useEffect(() => {
-    searchUserAdOne()
+    if (!isDelAd) {
+      searchUserAdOne()
+    } 
   }, [])
 
   console.log(result, "result", result !== null && result.length !== 0);
-
+  
+  if (isDelAd) {
+    return <Redirect to="/ad/curUser" />
+  }
 
   return (
     <div className="mt-3">

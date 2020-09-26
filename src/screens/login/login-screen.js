@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 //import { gql } from "graphql-request";
 import { connect } from "react-redux";
 import Spinner from "../../shared/components/spinner";
-import { login, registration, change } from "./../../services/auth";
 
 /*const createMutation = gql`
   mutation create($login: String!, $password: String!) {
@@ -19,7 +18,7 @@ const CreateUserForm = ({ dispatch }) => {
   const [values, setValues] = React.useState({});
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(registration(values));
+    dispatch({ type: "registration/request", payload: values });
     //API.request(createMutation, values).then(console.log);
   };
 
@@ -65,7 +64,7 @@ const LoginForm = ({ dispatch }) => {
   const [values, setValues] = React.useState({});
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(values));
+    dispatch({ type: "login/request", payload: values });
   };
 
   const onChange = (e) => {
@@ -74,6 +73,7 @@ const LoginForm = ({ dispatch }) => {
       ...prev,
       [target.name]: target.value
     }));
+    console.log("values", values)
   };
   return (
     <form onSubmit={onSubmit}>
@@ -114,7 +114,7 @@ const ChangeUserPasswordForm = ({ dispatch }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(values)
-    dispatch(change(values));
+    dispatch({ type: "changePassword/request", payload: values });
   };
 
   const onChange = (e) => {
@@ -172,6 +172,7 @@ const Login = ({ dispatch, authStatus }) => {
 
   const handleChange = (event) => {
     setNewUser(event.target.value)
+    dispatch({ type: "user/logout" });
   }
  
   if (authStatus === "resolved") {
@@ -229,6 +230,13 @@ const Login = ({ dispatch, authStatus }) => {
         {authStatus === "notChanged" ? (
           <span className="text-warning">
             You entered an incorrect data 
+          </span>
+        ) : null}
+      </div>
+      <div className="mt-2">
+        {authStatus === "changed" ? (
+          <span className="text-primary">
+            Your password has been successfully changed
           </span>
         ) : null}
       </div>

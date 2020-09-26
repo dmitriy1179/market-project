@@ -8,6 +8,7 @@ import AdFind from "./screens/ad-find"
 import PostAdUser from "./screens/ad-post"
 import MyAdsScreen from "./screens/ad-my"
 import MyAdOneSreen from "./screens/ad-my-one"
+import MyAdEditSreen from "./screens/ad-my-edit"
 
 const NotFound = () => <div> Page not found</div>;
 
@@ -27,6 +28,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path="/ad/curUser/:_id" redirectTo="/login">
             <MyAdOneSreen />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/ad/curUser/edit/:_id" redirectTo="/login">
+            <MyAdEditSreen />
           </ProtectedRoute>
           <ProtectedRoute exact path="/ad/post" redirectTo="/login">
             <PostAdUser />

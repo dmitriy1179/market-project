@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { logoutUser } from "../../services/auth";
 import API from "../../API";
 
 const Logout = ({dispatch}) => {
   const handleclick = () => {
     localStorage.removeItem("token");
     API.setHeader("Authorization", null);
-    dispatch(logoutUser);
+    dispatch({ type: "user/logout" });
   };
   return (
     <div>

@@ -10,7 +10,7 @@ import { Redirect } from "react-router-dom"
 
 
 const postAd = gql`
-  mutation post($title: String!, $description: String!, $images: [ImageInput], $tags: [String], $address: String, $price: Float!) {
+  mutation post($title: String!, $description: String, $images: [ImageInput], $tags: [String], $address: String, $price: Float!) {
     AdUpsert(ad: {
       title: $title,
       description: $description,
@@ -29,7 +29,6 @@ const PostAdUser = () => {
   const [values, setValues] = React.useState({
     "tags": ["sport", "entertainment", "health", "antiques", "technology"]
   });
-  const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
 
   const onChange = (e) => {
@@ -94,14 +93,12 @@ const PostAdUser = () => {
       API.request(postAd, values)
        .then((res) => {
           console.log("res", res)
-          setResult(res);
           setStatus("resolved");
         });
     } catch (e) {
       setStatus("rejected");
     }  
   };
-  console.log(result, "result", result !== null && result.length !== 0); 
 
   return (
 
