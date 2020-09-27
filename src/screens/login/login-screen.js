@@ -167,32 +167,13 @@ const ChangeUserPasswordForm = ({ dispatch }) => {
   );
 };
 
-const Login = ({ dispatch, authStatus }) => {
-  const [isNewUser, setNewUser] = React.useState("auth");
+const Login = ({ dispatch, authStatus, isNewUser }) => {
 
-  const handleChange = (event) => {
-    setNewUser(event.target.value)
-    dispatch({ type: "user/logout" });
-  }
- 
   if (authStatus === "resolved") {
     return <Redirect to="/" />;
   }
   return (
     <div>
-       <div className="btn-group-toggle mt-5" data-toggle="buttons">
-        <label className={`btn btn-outline-secondary ${isNewUser === "auth" ? "active" : ""}`}>
-          <input type="radio" name="login" value="auth" onChange={handleChange} /> Authorization 
-        </label>
-        <span> or </span>
-        <label className={`btn btn-outline-secondary ${isNewUser === "reg" ? "active" : ""}`}>
-          <input type="radio" name="login" value="reg" onChange={handleChange} /> Registration
-        </label>
-        <span> or </span>
-        <label className={`btn btn-outline-secondary ${isNewUser === "chng" ? "active" : ""}`}>
-          <input type="radio" name="login" value="chng" onChange={handleChange} /> Chage password
-        </label>
-      </div>
       <h1 className="m-3">{isNewUser === "auth" ? "Authorization" :
       (isNewUser === "reg" ? "Registration" : "Change password")} </h1>
       <div className="col-sm-12 col-md-5 mx-auto">
@@ -246,6 +227,7 @@ const Login = ({ dispatch, authStatus }) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
+  isNewUser: state.auth.isNewUser,
   authStatus: state.auth.status
 });
 export default connect(mapStateToProps)(Login);

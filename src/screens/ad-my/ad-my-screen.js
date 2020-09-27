@@ -1,8 +1,6 @@
 import React from "react";
 import API from "../../API";
 import { gql } from "graphql-request";
-import NavBar from "./../../shared/components/navbar";
-import Logout from "./../../shared/components/logout";
 import AdItem from "../../shared/components/ad-item"
 import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
@@ -99,10 +97,7 @@ const MyAdsScreen = () => {
   console.log(result, "result", result !== null && result.length !== 0);
 
   return (
-    <div className="mt-3">
-      <NavBar>
-        <Logout />
-      </NavBar>
+    <div className="mt-3 flex-grow-1">
       <div className="col-sm-12 my-3">
         <StatusResolver
           noData={result !== null && result.length === 0}

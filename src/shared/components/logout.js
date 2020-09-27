@@ -9,7 +9,7 @@ const Logout = ({dispatch}) => {
     dispatch({ type: "user/logout" });
   };
   return (
-    <div>
+    <div className="m-3">
       <button onClick={handleclick} type="button" className="btn btn-outline-secondary">Log out</button>
     </div>
   );

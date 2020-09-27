@@ -9,13 +9,15 @@ import PostAdUser from "./screens/ad-post"
 import MyAdsScreen from "./screens/ad-my"
 import MyAdOneSreen from "./screens/ad-my-one"
 import MyAdEditSreen from "./screens/ad-my-edit"
+import Navbar from "./shared/components/navbar"
 
 const NotFound = () => <div> Page not found</div>;
 
 function App() {
   return (
-    <div className="App">
+    <div className="d-flex flex-column App">
       <Router>
+        <Navbar />
         <Switch>
           <ProtectedRoute exact path="/" redirectTo="/login">
             <HomeScreen />
@@ -43,6 +45,9 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      <footer className="bg-secondary mt-3" id="footer">
+        <div></div>
+      </footer>
     </div>
   );
 }

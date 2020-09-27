@@ -1,5 +1,8 @@
+import { isDeleteExpression } from "typescript";
+
 const initialState = {
   isLoggedIn: !!localStorage.getItem("token"),
+  isNewUser: "reg",
   status: "idle"
 };
 
@@ -46,7 +49,13 @@ const authReducer = (state = initialState, action) => {
         return {
           ...state,
           status: "notChanged"
-        };    
+        };
+    case "new-user":
+      return {
+        ...state,
+        isNewUser: action.payload,
+        status: "idle",
+      };    
     case "user/logout":
       return {
         ...state,

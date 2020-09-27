@@ -1,8 +1,6 @@
 import React from "react";
 import API from "../../API";
 import { gql } from "graphql-request";
-import NavBar from "../../shared/components/navbar";
-import Logout from "../../shared/components/logout";
 import StatusResolver from "./../../shared/components/statusResolver"
 import AdItem from "../../shared/components/ad-item"
 
@@ -83,14 +81,11 @@ const AdFind = () => {
 
   console.log(result, "result", result !== null && result.length !== 0);
   return (
-    <div className="Container mt-3">
-      <NavBar>
-        <Logout />
-      </NavBar>  
+    <div className="Container mt-3 flex-grow-1">
       <div className="row input-group m-3 justify-content-md-center">
-        <input type="search" className="form-control col-5" onChange={onChange} placeholder="Enter a good"/>
+        <input type="search" className="form-control col-5" onChange={onChange} placeholder="Enter ad"/>
           <div className="input-group-append">
-            <button className="btn btn-primary" type="submit" onClick={onClick}>Search Ad</button>
+            <button className="btn btn-secondary" type="submit" onClick={onClick}>Search Ad</button>
           </div>
       </div>
       <div className="col-sm-12 my-3">

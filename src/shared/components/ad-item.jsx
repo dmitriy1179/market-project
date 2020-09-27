@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import camera from "../../shared/images/camera.png"
+import { getTypeParameterOwner } from "typescript";
 
-const AdItem = ({_id, images, title, createdAt, price, children}) => {
+const AdItem = ({_id, images, title, createdAt, price, owner, children}) => {
   return (
     <li className="border rounded my-3 mx-auto w-75 p-3 d-flex">
       <div style={{width:"170px", height:"120px"}}>
@@ -33,6 +34,7 @@ const AdItem = ({_id, images, title, createdAt, price, children}) => {
           <div className="font-weight-bolder" style={{fontSize:"22px"}}>{title}</div>
           <div style={{fontSize:"20px"}}>{`${price} грн.`}</div>
         </div>
+        <div className="align-self-start" style={{fontSize:"14px"}}>Owner: {owner.login}</div>
         <div className="align-self-start" style={{fontSize:"12px"}}>Posted: {new Date(createdAt/1).toLocaleDateString()}</div>
         <div className="d-flex justify-content-end flex-grow-1 align-items-end">
           {children}

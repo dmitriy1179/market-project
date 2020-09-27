@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  overflow: hidden;
+
 }
 
 ul,
@@ -11,4 +14,8 @@ li {
 
 img {
   object-fit: cover;
+}
+
+#footer {
+  height: 150px
 }

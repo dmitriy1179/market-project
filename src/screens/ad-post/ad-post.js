@@ -1,8 +1,6 @@
 import React from "react";
 import API from "../../API";
 import { gql } from "graphql-request";
-import NavBar from "../../shared/components/navbar";
-import Logout from "../../shared/components/logout";
 import StatusResolver from "../../shared/components/statusResolver"
 import ReactTagInput from "@pathofdev/react-tag-input"
 import "@pathofdev/react-tag-input/build/index.css";
@@ -102,10 +100,7 @@ const PostAdUser = () => {
 
   return (
 
-    <div className="Container mt-3">
-      <NavBar>
-        <Logout />
-      </NavBar>  
+    <div className="Container mt-3 flex-grow-1">
       <form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Title</label>
@@ -177,7 +172,7 @@ const PostAdUser = () => {
             />
           </div>
         </div>
-        <button className="btn btn-primary" disabled={status === "searching"}>Post</button>
+        <button className="btn btn-secondary" disabled={status === "searching"}>Post ad</button>
       </form>
       <StatusResolver
         status={status}

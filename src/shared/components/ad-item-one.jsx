@@ -19,11 +19,10 @@ const AdItemOne = ({ _id, title, createdAt, price, description, owner, onClick, 
           <span>Addresses:{owner.addresses}</span>
         </div>
       }
-      {owner.phones === null ? null :
-        <div className="text-justify my-3" style={{fontSize:"18px"}}>
-          <span>Phones:{owner.phones}</span>
-        </div>
-      }
+      <div className="text-justify my-3" style={{fontSize:"18px"}}>
+        <span>Phones:{owner.phones}</span>
+      </div>
+
       <div className="d-flex justify-content-between">
         <div className="align-self-start mt-3" style={{fontSize:"14px"}}>Posted: {new Date(createdAt/1).toLocaleDateString()}</div>
         <div className="d-flex justify-content-end flex-grow-1 align-items-end">

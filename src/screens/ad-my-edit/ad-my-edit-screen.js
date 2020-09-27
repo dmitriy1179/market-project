@@ -1,8 +1,6 @@
 import React from "react";
 import API from "../../API";
 import { gql } from "graphql-request";
-import NavBar from "../../shared/components/navbar";
-import Logout from "../../shared/components/logout";
 import StatusResolver from "../../shared/components/statusResolver"
 import { useParams, Redirect } from "react-router-dom";
 import ReactTagInput from "@pathofdev/react-tag-input"
@@ -42,8 +40,6 @@ const edittAd = gql`
   }
 `;
 
-
-
 const MyAdEditSreen = () => {
   const { _id } = useParams()
   const [values, setValues] = React.useState(null);
@@ -66,14 +62,11 @@ const MyAdEditSreen = () => {
           const tags = ["sport", "entertainment", "health", "antiques", "technology"]
           tags.forEach(tag => tagsSet.add(tag))
           res.AdFind[0].tags = [...tagsSet]
-          /*setValues(res.AdFind[0]);
-          setArrOldImages(res.AdFind[0].images)
-          setValues((prev) => ({
-            ...prev,
-            "images": []
-          })); */
-          setArrOldImages(res.AdFind[0].images)
-          res.AdFind[0].images = []
+          setArrOldImages(res.AdFind[0].images === null ? [] : 
+            (res.AdFind[0].images.length === 0 ? [] : 
+              (res.AdFind[0].images.url === null ? [] :
+                (res.AdFind[0].images))))
+        
           setValues(res.AdFind[0]);
           setStatus("idle");
       });
@@ -126,7 +119,6 @@ const MyAdEditSreen = () => {
       })
         .then((res) => res.json())
         .then((json) => {
-          console.log("UPLOAD RESULT", json._id);
           arrImages.push({"_id": json._id})
           console.log("arr", arrImages)
           if (arrImages.length === arrLength) {
@@ -142,12 +134,14 @@ const MyAdEditSreen = () => {
   };
 
   const onSubmit = (e) => {
-    arrOldImages.forEach((image) => {
-      const {_id: id} = image
-      console.log("imageId", {_id:id})
-      values.images.push({_id:id})
-    })
-    console.log("images", values.images)
+    if (arrOldImages.length !== 0) {
+      arrOldImages.forEach((image) => {
+        const {_id: id} = image
+        console.log("imageId", {_id:id})
+        values.images.push({_id:id})
+      })
+      console.log("images", values.images)
+    }
     e.preventDefault();
     try {
       setStatus("searching");
@@ -172,10 +166,7 @@ const MyAdEditSreen = () => {
 
 
   return (
-    <div className="Container mt-3">
-      <NavBar>
-        <Logout />
-      </NavBar>
+    <div className="Container mt-3 flex-grow-1">
       {values === null ? null : 
         (<form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
           <div className="form-group row">

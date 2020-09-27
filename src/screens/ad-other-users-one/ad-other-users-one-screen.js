@@ -1,8 +1,6 @@
 import React from "react";
 import API from "../../API";
 import { gql } from "graphql-request";
-import NavBar from "../../shared/components/navbar";
-import Logout from "../../shared/components/logout";
 import ViewImages from "../../shared/components/view-images"
 import AdItemOne from "../../shared/components/ad-item-one"
 import StatusResolver from "../../shared/components/statusResolver"
@@ -105,10 +103,7 @@ const MyAdOneSreen = () => {
   }
 
   return (
-    <div className="mt-3">
-      <NavBar>
-        <Logout />
-      </NavBar>
+    <div className="mt-3 flex-grow-1">
       <div className="col-sm-12 my-3">
         <StatusResolver
           status={status}
