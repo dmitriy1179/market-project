@@ -50,6 +50,23 @@ const query = gql`
   }
 `;
 
+const Ads = gql`
+  query adFind {
+    AdFind(query: "[{}]") {
+      _id
+      owner {
+        login
+      } 
+      price
+      createdAt
+      title
+      images {
+        url
+      }
+    }
+  }
+`;
+
 const AdFind = () => {
   const [value, setValue] = React.useState(null);
   const [result, setResult] = React.useState(null);
@@ -65,7 +82,7 @@ const AdFind = () => {
         API.request(query, {
           query: JSON.stringify([
             {
-              $or: [{title: `/${String(value)}/`}, {description: `/${String(value)}/`}]  
+              $or: [{title: `/${String(value)}/`}, {description: `/${String(value)}/`}, {tags: `/${String(value)}/`}]  
             }
           ])
         }).then((res) => {
@@ -76,8 +93,23 @@ const AdFind = () => {
     } catch (e) {
         setStatus("rejected");
     }  
-
   };
+  
+  const searchAllAds = () => {
+    try {
+      setStatus("searching");
+        API.request(Ads, {}).then((res) => {
+          console.log("res", res)
+          setResult(res.AdFind);
+          setStatus("resolved");
+      });
+    } catch (e) {
+        setStatus("rejected");
+    }  
+  };
+  React.useEffect(() => {
+    searchAllAds()
+  }, [])
 
   console.log(result, "result", result !== null && result.length !== 0);
   return (

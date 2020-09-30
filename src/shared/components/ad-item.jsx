@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import camera from "../../shared/images/camera.png"
-import { getTypeParameterOwner } from "typescript";
+//import { getTypeParameterOwner } from "typescript";
 
 const AdItem = ({_id, images, title, createdAt, price, owner, children}) => {
   return (

@@ -23,7 +23,7 @@ const myAdOneFind = gql`
   }
 `;
 
-const edittAd = gql`
+const editAd = gql`
   mutation post($_id: ID, $title: String!, $description: String, $images: [ImageInput], $tags: [String], $address: String, $price: Float!) {
     AdUpsert(ad: {
       _id: $_id
@@ -64,9 +64,9 @@ const MyAdEditSreen = () => {
           res.AdFind[0].tags = [...tagsSet]
           setArrOldImages(res.AdFind[0].images === null ? [] : 
             (res.AdFind[0].images.length === 0 ? [] : 
-              (res.AdFind[0].images.url === null ? [] :
+              (res.AdFind[0].images[0].url === null ? [] :
                 (res.AdFind[0].images))))
-        
+          res.AdFind[0].images = []      
           setValues(res.AdFind[0]);
           setStatus("idle");
       });
@@ -145,7 +145,7 @@ const MyAdEditSreen = () => {
     e.preventDefault();
     try {
       setStatus("searching");
-      API.request(edittAd, values)
+      API.request(editAd, values)
        .then((res) => {
           console.log("res", res)
           setStatus("resolved");
