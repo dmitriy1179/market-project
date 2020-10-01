@@ -16,7 +16,6 @@ const postAd = gql`
       tags: $tags
       address: $address,
       price: $price
-
     }) {
       _id
     }
@@ -99,11 +98,10 @@ const PostAdUser = () => {
   };
 
   return (
-
     <div className="Container mt-3 flex-grow-1">
       <form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
         <div className="form-group row">
-          <label className="col-sm-2 col-form-label">Title</label>
+          <label className="col-sm-2 col-form-label">Title *</label>
           <div className="col-sm-10">
             <input
               type="text"
@@ -111,6 +109,7 @@ const PostAdUser = () => {
               placeholder="Title"
               name="title"
               onChange={onChange}
+              required
             />
           </div>
         </div>
@@ -161,7 +160,7 @@ const PostAdUser = () => {
           </div>
         </div>
         <div className="form-group row">
-          <label className="col-sm-2 col-form-label">Price</label>
+          <label className="col-sm-2 col-form-label">Price *</label>
           <div className="col-sm-10">
             <input
               type="number"
@@ -169,6 +168,7 @@ const PostAdUser = () => {
               placeholder="Price"
               name="price"
               onChange={onChange}
+              required
             />
           </div>
         </div>

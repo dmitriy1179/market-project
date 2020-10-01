@@ -70,7 +70,7 @@ const HomeScreen = () => {
       >
         {result === null ? null : 
           <div className="border rounded my-3 mx-auto w-75 p-3 d-flex">
-            <div className="mr-2" style={{width:"300px", height:"300px"}}>
+            <div className="mr-2" style={{width:"400px", height:"300px"}}>
               {result.avatar === null ? 
                 <img src={avatar}
                   className="img-fluid rounded w-100 h-100"
@@ -109,8 +109,10 @@ const HomeScreen = () => {
                 <div className="font-italic">
                   {result.phones === null ? null :
                     (result.phones.length === 0 ? null :
-                      result.phones.map((phone) => (
-                      <div className="ml-2">{phone}</div>))
+                      result.phones.map((phone, index) => (
+                        index === 0 ? <span key={index} className="ml-2 text-wrap">{phone}</span>
+                        : <span key={index} className="ml-1 text-wrap">, {phone}</span>
+                      ))
                     )
                   }
                 </div>
@@ -122,8 +124,10 @@ const HomeScreen = () => {
                 <div className="font-italic ">
                   {result.addresses === null ? null :
                     (result.addresses.length === 0 ? null :
-                      result.addresses.map((address) => (
-                      <div className="ml-2 text-justify text-wrap">{address}</div>))
+                      result.addresses.map((address, index) => (
+                        index === 0 ? <span key={index} className="ml-2 text-justify text-wrap">{address}</span>
+                        : <span key={index} className="ml-1 text-justify text-wrap">; {address}</span>
+                      ))
                     )
                   }
                 </div>

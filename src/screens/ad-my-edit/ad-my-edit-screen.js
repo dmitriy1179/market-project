@@ -170,7 +170,7 @@ const MyAdEditSreen = () => {
       {values === null ? null : 
         (<form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
           <div className="form-group row">
-            <label className="col-sm-2 col-form-label">Title</label>
+            <label className="col-sm-2 col-form-label">Title *</label>
             <div className="col-sm-10">
               <input
                 type="text"
@@ -179,6 +179,7 @@ const MyAdEditSreen = () => {
                 name="title"
                 onChange={onChange}
                 defaultValue={values.title}
+                required
               />
             </div>
           </div>
@@ -257,7 +258,7 @@ const MyAdEditSreen = () => {
             </div>
           </div>
           <div className="form-group row">
-            <label className="col-sm-2 col-form-label">Price</label>
+            <label className="col-sm-2 col-form-label">Price *</label>
             <div className="col-sm-10">
               <input
                 type="number"
@@ -266,10 +267,11 @@ const MyAdEditSreen = () => {
                 name="price"
                 onChange={onChange}
                 defaultValue={values.price}
+                required
               />
             </div>
           </div>
-          <button className="btn btn-primary" disabled={status === "searching"}>Edit ad</button>
+          <button className="btn btn-secondary" disabled={status === "searching"}>Edit ad</button>
         </form>)
       }
       <StatusResolver

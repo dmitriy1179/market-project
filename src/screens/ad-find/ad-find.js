@@ -21,6 +21,9 @@ const query = gql`
         owner {
           nick
         }
+        ad {
+          _id
+        }
         text
         answers {
           _id
