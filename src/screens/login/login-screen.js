@@ -173,7 +173,7 @@ const Login = ({ dispatch, authStatus, isNewUser }) => {
     return <Redirect to="/" />;
   }
   return (
-    <div>
+    <div className="mt-3 flex-grow-1">
       <h1 className="m-3">{isNewUser === "auth" ? "Authorization" :
       (isNewUser === "reg" ? "Registration" : "Change password")} </h1>
       <div className="col-sm-12 col-md-5 mx-auto">

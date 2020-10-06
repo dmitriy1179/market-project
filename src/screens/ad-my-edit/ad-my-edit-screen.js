@@ -65,10 +65,11 @@ const MyAdEditSreen = () => {
           setArrOldImages(res.AdFind[0].images === null ? [] : 
             (res.AdFind[0].images.length === 0 ? [] : 
               (res.AdFind[0].images[0].url === null ? [] :
-                (res.AdFind[0].images))))
+                (res.AdFind[0].images.filter(image => image.url !== null)))))
           res.AdFind[0].images = []      
           setValues(res.AdFind[0]);
           setStatus("idle");
+          console.log("arrOldImages", arrOldImages)
       });
     } catch (e) {
       setStatus("rejected");

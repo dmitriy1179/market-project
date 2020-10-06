@@ -136,7 +136,7 @@ const ProfileEditSreen = () => {
       {values === null ? null :
         (<form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
           <div className="form-group row">
-            <label className="col-sm-2 col-form-label">Login</label>
+            <label className="col-sm-2 col-form-label">Login *</label>
             <div className="col-sm-10">
               <input
                 type="text"
@@ -145,6 +145,7 @@ const ProfileEditSreen = () => {
                 name="login"
                 onChange={onChange}
                 defaultValue={values.login}
+                required
               />
             </div>
           </div>

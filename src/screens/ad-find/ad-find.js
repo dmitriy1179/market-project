@@ -3,6 +3,7 @@ import API from "../../API";
 import { gql } from "graphql-request";
 import StatusResolver from "./../../shared/components/statusResolver"
 import AdItem from "../../shared/components/ad-item"
+import { Link } from "react-router-dom";
 
 const query = gql`
   query adFind($query: String) {
@@ -16,35 +17,8 @@ const query = gql`
         addresses
       } 
       price
-      comments {
-        _id
-        owner {
-          nick
-        }
-        ad {
-          _id
-        }
-        text
-        answers {
-          _id
-          owner {
-            nick
-          }
-          text
-        }
-        answerTo {
-          _id
-          owner {
-            nick
-          }
-          text
-        }
-      }
       createdAt
       title
-      tags
-      address
-      description
       images {
         url
         _id
@@ -59,6 +33,7 @@ const Ads = gql`
       _id
       owner {
         login
+        nick
       } 
       price
       createdAt
@@ -86,6 +61,9 @@ const AdFind = () => {
           query: JSON.stringify([
             {
               $or: [{title: `/${String(value)}/`}, {description: `/${String(value)}/`}, {tags: `/${String(value)}/`}]  
+            },
+            {
+              sort: [{_id: 1}]
             }
           ])
         }).then((res) => {
@@ -131,7 +109,13 @@ const AdFind = () => {
           <ul>
             {result === null ? null : 
               result.map((ad) => (
-                <AdItem key={ad._id} {...ad}/>
+                <AdItem key={ad._id} {...ad}>
+                  <Link to={`/ad/otherUser/${ad._id}`}
+                    style={{width:"70px"}}
+                    className="btn btn-outline-secondary btn-sm"
+                    role="button">View
+                  </Link>
+                </AdItem>  
               ))
             }
           </ul>

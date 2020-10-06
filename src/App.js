@@ -11,6 +11,7 @@ import MyAdOneSreen from "./screens/ad-my-one"
 import MyAdEditSreen from "./screens/ad-my-edit"
 import Navbar from "./shared/components/navbar"
 import ProfileEditSreen from "./screens/profile-edit"
+import OtherAdOneSreen from "./screens/ad-other-users-one"
 
 const NotFound = () => <div> Page not found</div>;
 
@@ -31,6 +32,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path="/ad/curUser" redirectTo="/login">
             <MyAdsScreen />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/ad/otherUser/:_id" redirectTo="/login">
+            <OtherAdOneSreen />
           </ProtectedRoute>
           <ProtectedRoute exact path="/ad/curUser/:_id" redirectTo="/login">
             <MyAdOneSreen />

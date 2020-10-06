@@ -1,4 +1,4 @@
-import { takeLatest, put, call, take } from "redux-saga/effects";
+import { takeLatest, put, call } from "redux-saga/effects";
 import { gql } from "graphql-request";
 import API from "./../../API"
 

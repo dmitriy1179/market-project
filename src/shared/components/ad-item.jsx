@@ -34,15 +34,10 @@ const AdItem = ({_id, images, title, createdAt, price, owner, children}) => {
           <div className="font-weight-bolder" style={{fontSize:"22px"}}>{title}</div>
           <div style={{fontSize:"20px"}}>{`${price} грн.`}</div>
         </div>
-        <div className="align-self-start" style={{fontSize:"14px"}}>Owner: {owner.login}</div>
+        <div className="align-self-start" style={{fontSize:"14px"}}>Owner: {owner.nick || owner.login}</div>
         <div className="align-self-start" style={{fontSize:"12px"}}>Posted: {new Date(createdAt/1).toLocaleDateString()}</div>
         <div className="d-flex justify-content-end flex-grow-1 align-items-end">
           {children}
-          <Link to={`/ad/curUser/${_id}`}
-            style={{width:"70px"}}
-            className="btn btn-outline-secondary btn-sm"
-            role="button">View
-          </Link>
         </div>
       </div>  
     </li>

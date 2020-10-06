@@ -14,22 +14,10 @@ const myAd = gql`
         _id
         login
         nick 
-        phones
-        addresses
       } 
       price
-      comments {
-        _id
-        owner {
-          nick
-        }
-        text
-      }
       createdAt
       title
-      tags
-      address
-      description
       images {
         url
         _id
@@ -78,6 +66,9 @@ const MyAdsScreen = () => {
           query: JSON.stringify([
             {
               ___owner: id
+            },
+            {
+              sort: [{_id: 1}]
             }
           ])
         }).then((res) => {
@@ -119,6 +110,11 @@ const MyAdsScreen = () => {
                     style={{width:"70px"}}
                     className="btn btn-secondary btn-sm mr-3"
                     role="button">Edit
+                  </Link>
+                  <Link to={`/ad/curUser/${ad._id}`}
+                    style={{width:"70px"}}
+                    className="btn btn-outline-secondary btn-sm"
+                    role="button">View
                   </Link>
                 </AdItem>  
               ))

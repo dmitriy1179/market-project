@@ -9,7 +9,7 @@ const ViewImages = ({ images }) => {
     setCount((prev) => prev - 1)
   }
   return (
-    <div className="border rounded my-3 w-50 mx-auto p-3">
+    <div className="border rounded my-3 w-75 mx-auto p-3">
       <div className="w-100">
         <img src={`http://marketplace.asmer.fs.a-level.com.ua/${images[count].url}`}
           className="img-fluid rounded w-100 h-100"

@@ -48,7 +48,7 @@ const NavBar = ({ isLoggedIn, isNewUser, dispatch }) => {
               <input type="radio" name="login" value="reg" onChange={handleChange} /> Registration
             </label>
             <label className={`btn btn-outline-secondary m-3 rounded ${isNewUser === "chng" ? "active" : ""}`}>
-              <input type="radio" name="login" value="chng" onChange={handleChange} /> Chage password
+              <input type="radio" name="login" value="chng" onChange={handleChange} /> Change password
             </label>
           </div>)
         }
