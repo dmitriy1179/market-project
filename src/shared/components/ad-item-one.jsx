@@ -7,7 +7,7 @@ const AdItemOne = ({ _id, title, createdAt, price, description, owner, onClick, 
       <div className="text-justify my-3" style={{fontSize:"24px"}}>{`${price} грн.`}</div>
       <div className="my-3">
         <div className="text-justify my-2" style={{fontSize:"22px"}}>Description</div>
-        <div className="text-justify font-italic" style={{fontSize:"18px"}}>{description}</div>
+        <div className="text-justify text-break font-italic" style={{fontSize:"18px"}}>{description}</div>
       </div>
       <div className="text-justify my-3" style={{fontSize:"18px"}}>
         <span>Owner: </span> <span className="font-italic">{owner.nick || owner.login}</span>

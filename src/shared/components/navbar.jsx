@@ -36,6 +36,11 @@ const NavBar = ({ isLoggedIn, isNewUser, dispatch }) => {
                   Post ad
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/messages">
+                  Messages
+                </Link>
+              </li>
             </ul>) : null
           }  
         </div>

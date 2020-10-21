@@ -1,5 +1,3 @@
-import { isDeleteExpression } from "typescript";
-
 const initialState = {
   isLoggedIn: !!localStorage.getItem("token"),
   isNewUser: "reg",

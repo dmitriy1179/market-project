@@ -1,25 +1,13 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-//import API from "./../../API";
-//import { gql } from "graphql-request";
 import { connect } from "react-redux";
 import Spinner from "../../shared/components/spinner";
-
-/*const createMutation = gql`
-  mutation create($login: String!, $password: String!) {
-    createUser(login: $login, password: $password) {
-      _id
-      login
-    }
-  }
-`;*/
 
 const CreateUserForm = ({ dispatch }) => {
   const [values, setValues] = React.useState({});
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch({ type: "registration/request", payload: values });
-    //API.request(createMutation, values).then(console.log);
   };
 
   const onChange = (e) => {
@@ -40,6 +28,7 @@ const CreateUserForm = ({ dispatch }) => {
             placeholder="Login"
             name="login"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -52,6 +41,7 @@ const CreateUserForm = ({ dispatch }) => {
             placeholder="Password"
             name="password"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -86,6 +76,7 @@ const LoginForm = ({ dispatch }) => {
             placeholder="Login"
             name="login"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -98,6 +89,7 @@ const LoginForm = ({ dispatch }) => {
             placeholder="Password"
             name="password"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -135,6 +127,7 @@ const ChangeUserPasswordForm = ({ dispatch }) => {
             placeholder="Login"
             name="login"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -147,6 +140,7 @@ const ChangeUserPasswordForm = ({ dispatch }) => {
             placeholder="Password"
             name="password"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -159,6 +153,7 @@ const ChangeUserPasswordForm = ({ dispatch }) => {
             placeholder="New password"
             name="newPassword"
             onChange={onChange}
+            required
           />
         </div>
       </div>
@@ -172,6 +167,7 @@ const Login = ({ dispatch, authStatus, isNewUser }) => {
   if (authStatus === "resolved") {
     return <Redirect to="/" />;
   }
+
   return (
     <div className="mt-3 flex-grow-1">
       <h1 className="m-3">{isNewUser === "auth" ? "Authorization" :

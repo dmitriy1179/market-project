@@ -12,8 +12,10 @@ import MyAdEditSreen from "./screens/ad-my-edit"
 import Navbar from "./shared/components/navbar"
 import ProfileEditSreen from "./screens/profile-edit"
 import OtherAdOneSreen from "./screens/ad-other-users-one"
+import OtherUserAdsScreen from "./screens/ads-other-user"
+import MessagesScreen from "./screens/messages"
 
-const NotFound = () => <div> Page not found</div>;
+const NotFound = () => <div className="mt-3 flex-grow-1"> Page not found</div>;
 
 function App() {
   return (
@@ -36,6 +38,9 @@ function App() {
           <ProtectedRoute exact path="/ad/otherUser/:_id" redirectTo="/login">
             <OtherAdOneSreen />
           </ProtectedRoute>
+          <ProtectedRoute exact path="/ads/otherUser/:_id" redirectTo="/login">
+            <OtherUserAdsScreen />
+          </ProtectedRoute>
           <ProtectedRoute exact path="/ad/curUser/:_id" redirectTo="/login">
             <MyAdOneSreen />
           </ProtectedRoute>
@@ -44,6 +49,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path="/ad/post" redirectTo="/login">
             <PostAdUser />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/messages" redirectTo="/login">
+            <MessagesScreen />
           </ProtectedRoute>
           <Route path="/login" exact>
             <LoginScreen />

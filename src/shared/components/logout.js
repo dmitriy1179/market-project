@@ -7,6 +7,7 @@ const Logout = ({dispatch}) => {
     localStorage.removeItem("token");
     API.setHeader("Authorization", null);
     dispatch({ type: "user/logout" });
+    //dispatch({ type: "resetMessageGet/request" });
   };
   return (
     <div className="m-3">

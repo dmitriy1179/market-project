@@ -1,39 +1,17 @@
 import React from "react";
+import { useParams, Link } from "react-router-dom";
 import AdItem from "../../shared/components/ad-item"
-import jwt_decode from "jwt-decode";
-import { Link } from "react-router-dom";
-import StatusResolver from "./../../shared/components/statusResolver";
+import StatusResolver from "../../shared/components/statusResolver"
 import { connect } from "react-redux";
 
-const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
-  const token = localStorage.getItem("token")
-  const { sub } = jwt_decode(token);
-  const { id } = sub
-  const [isDelAd, setIsDelAD] = React.useState(false)
+const OtherUserAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
+  const { _id } = useParams()
   const [limit, setLimit] = React.useState(10);
-  const [value, setValue] = React.useState(null);
-
-  const onChangeInput = (e) => {
-    setValue(e.target.value)
-  };
-
-  const onClickSearchAds = () => {
-    dispatch({ type: "skip/reset" })
-    searchUserAds()
-  }
-
-  const onClickDelete = (adId) => {
-    console.log("adId", adId)
-    const adIdDel = {"_id": adId}
-    console.log("adIdDel", adIdDel)
-    dispatch({ type: "adUserDelete/request", payload: adIdDel })
-    setIsDelAD(!isDelAd)
-  }
 
   const searchUserAds = () => {
     dispatch({ type: "adsUserFind/request", payload: {
-      value: value,
-      id: id,
+      value: null,
+      id: _id,
       skip: skip,
       limit: limit
     }});
@@ -55,14 +33,12 @@ const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
 
   React.useEffect(() => {
     searchUserAds()
-    return () => dispatch({ type: "findRequest/reset" })
-  }, [isDelAd, limit])
+    return () => dispatch ({ type: "findRequest/reset" })
+  }, [limit])
 
   console.log(adsData, "result", adsData !== null && adsData.length !== 0);
   console.log("skip", skip)
   console.log("limit", limit)
-  console.log("value", value)
-
 
   return (
     <div className="mt-3 flex-grow-1">
@@ -81,40 +57,20 @@ const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
           </select>
         </div>
       </div>
-      <div className="row input-group m-3 justify-content-md-center">
-        <input type="search" className="form-control col-5" onChange={onChangeInput} placeholder="Enter ad"/>
-          <div className="input-group-append">
-            <button className="btn btn-secondary" type="submit" onClick={onClickSearchAds} disabled={status === "searching"}>Search Ad</button>
-          </div>
-      </div>
       <div className="col-sm-12 my-3">
         <StatusResolver
-          noData={adsData !== null && adsData.length === 0}
           status={status}
-          content="You have no ads loaded"
         >
           <ul>
             {adsData === null ? null : 
               adsData.map((ad) => (
                 <AdItem key={ad._id} {...ad}>
-                  <button type="button"
-                    className="btn btn-outline-danger btn-sm mr-3"
-                    style={{width:"70px"}}
-                    onClick = {() => onClickDelete(ad._id)}
-                  >
-                  Delete
-                  </button>
-                  <Link to={`/ad/curUser/edit/${ad._id}`}
-                    style={{width:"70px"}}
-                    className="btn btn-secondary btn-sm mr-3"
-                    role="button">Edit
-                  </Link>
-                  <Link to={`/ad/curUser/${ad._id}`}
+                  <Link to={`/ad/otherUser/${ad._id}`}
                     style={{width:"70px"}}
                     className="btn btn-outline-secondary btn-sm"
                     role="button">View
                   </Link>
-                </AdItem>  
+                </AdItem>             
               ))
             }
           </ul>
@@ -142,7 +98,7 @@ const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
       </div>
     </div>
   )
-};
+}
 
 const mapStateToProps = (state) => ({
   adsData: state.ads.adsData,
@@ -151,4 +107,6 @@ const mapStateToProps = (state) => ({
   skip: state.ads.skip,
 });
 
-export default connect(mapStateToProps)(MyAdsScreen);
+export default connect(mapStateToProps)(OtherUserAdsScreen);
+
+

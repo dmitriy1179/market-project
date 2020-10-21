@@ -5,8 +5,10 @@ import ViewImages from "../../shared/components/view-images"
 import AdItemOne from "../../shared/components/ad-item-one"
 import StatusResolver from "../../shared/components/statusResolver"
 import camera from "../../shared/images/camera.png"
-import { Link, useParams } from "react-router-dom";
-import AdComments from "../../shared/components/ad-comments"
+import { useParams } from "react-router-dom";
+import AdComments from "../../shared/components/ad-comments";
+import AddMessage from "../../shared/components/messages";
+import { connect } from "react-redux";
 
 const myAdOne = gql`
   query adFindOne($query: String) {
@@ -32,35 +34,11 @@ const myAdOne = gql`
   }
 `;
 
-const deleteAdMutation = gql`
-  mutation deleteAD($adId: ID) {
-    AdDelete(ad: {
-      _id: $adId
-     }) {
-      _id
-    }
-  }
-`;
-
-const OtherAdOneSreen = () => {
+const OtherAdOneSreen = ({ dispatch, messageSendStatus, isSendMessage, isSendMessageYourself, isDisabled}) => {
   const { _id } = useParams()
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
   const [isComments, setIsComments] = React.useState(false)
-
-  const onClickDelete = async (adId) => {
-    console.log("adId", adId)
-    const adIdDel = {"_id": adId}
-    console.log("adIdDel", adIdDel)
-    try {
-      setStatus("searching");
-      const res = await API.request(deleteAdMutation, adIdDel)
-      console.log("resDel", res)
-      setStatus("deleted");
-    } catch (e) {
-      setStatus("rejected");
-    }
-  }
 
   const searchUserAdOne = () => {
     try {
@@ -123,12 +101,28 @@ const OtherAdOneSreen = () => {
                 <AdComments id={_id}/>
                 : null
               }
+              <AddMessage 
+                userId={result.owner._id}
+                name={result.owner.nick || result.owner.login}
+                messageSendStatus={messageSendStatus}
+                isSendMessage={isSendMessage}
+                isSendMessageYourself={isSendMessageYourself}
+                isDisabled={isDisabled}
+                dispatch={dispatch}
+              />
             </>
           }
+
         </StatusResolver>
       </div>
     </div>
   )
 }
+const mapStateToProps = (state) => ({
+  messageSendStatus: state.messages.messageSendStatus,
+  isSendMessage: state.messages.isSendMessage,
+  isSendMessageYourself: state.messages.isSendMessageYourself,
+  isDisabled: state.messages.isDisabled
+});
 
-export default OtherAdOneSreen
+export default connect(mapStateToProps)(OtherAdOneSreen);
