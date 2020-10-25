@@ -11,7 +11,8 @@ import {
 import {
   sendMessageYourselfSaga,
   sendMessageRequestSaga,
-  getMessageRequestSaga
+  getMessageRequestSaga,
+  getOneUserMessageRequestSaga
 } from "./../services/messages/messages-sagas"
 
 import { all } from "redux-saga/effects";
@@ -27,7 +28,8 @@ function* rootSaga() {
     deleteAdRequestSaga(),
     sendMessageYourselfSaga(),
     sendMessageRequestSaga(),
-    getMessageRequestSaga()
+    getMessageRequestSaga(),
+    getOneUserMessageRequestSaga()
   ]);
 }
 

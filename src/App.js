@@ -13,7 +13,8 @@ import Navbar from "./shared/components/navbar"
 import ProfileEditSreen from "./screens/profile-edit"
 import OtherAdOneSreen from "./screens/ad-other-users-one"
 import OtherUserAdsScreen from "./screens/ads-other-user"
-import MessagesScreen from "./screens/messages"
+import MessagesScreen from "./screens/messages";
+import MessagesOneUserScreen from "./screens/messages-one-user"
 
 const NotFound = () => <div className="mt-3 flex-grow-1"> Page not found</div>;
 
@@ -52,6 +53,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path="/messages" redirectTo="/login">
             <MessagesScreen />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/messages/:_id" redirectTo="/login">
+            <MessagesOneUserScreen />
           </ProtectedRoute>
           <Route path="/login" exact>
             <LoginScreen />

@@ -57,12 +57,17 @@ function messagesReducer(state = initialMessagesState, action) {
         ...state,
         messageGetStatus: "rejected",
       };
+    case "messageGetRequest/pending":
+      return {
+        ...state,
+        messageGetStatus: "searching",
+      };  
     case "lastMessages/array":
       return {
         ...state,
         lastMessagesData: action.payload,
       };
-    case "resetMessageGet/request":
+    case "cancelMessageGet/request":
       return {
         ...state,
         ...initialMessagesState

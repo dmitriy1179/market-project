@@ -1,4 +1,4 @@
-import { takeLatest, put, call, delay, select, cancel, take, takeEvery } from "redux-saga/effects";
+import { takeLatest, put, call, delay, select, cancel, take } from "redux-saga/effects";
 import { gql } from "graphql-request";
 import API from "./../../API"
 import { getMessageData, getMessageCount } from "./selectors"
@@ -81,17 +81,30 @@ const messagesCount = gql`
   }
 `;
 
-async function messageFindRequest (id) {
-  const data = await API.request(messagesFind, {
+async function messageFindRequest (id, count = 0) {
+  const arrayMessages = [];
+  let data = await API.request(messagesFind, {
     query: JSON.stringify([
       {
         $or: [{___owner: id}, {"to._id": {$eq: id}}]  
       },
       {
-        sort: [{_id: - 1}]
+        sort: [{_id: - 1}],
+        skip: [count]
       }
     ])
   })
+  arrayMessages.push(data.MessageFind)
+  if (data.MessageCount > 100) {
+    count += 100
+    const res = await messageFindRequest (id, count)
+    arrayMessages.push(res.MessageFind)
+  }
+  data = {
+    MessageFind: arrayMessages.flat(),
+    MessageCount: data.MessageCount
+  }
+  console.log("data", data)
   return data
 }
 
@@ -107,6 +120,9 @@ async function messageCountRequest (id) {
 }
 
 const filterArrayMessages = (arr, id) => {
+  if (arr.length === 0) {
+    return null
+  }
   const array = []
   const tempArray = arr.filter(elem => arr[0].owner._id === id ?
     elem.owner._id !== arr[0].to._id :
@@ -128,7 +144,8 @@ function* getMessageRequest(action) {
   while(true) {
     const messageData = yield select(getMessageData);
     const messageCount = yield select(getMessageCount)
-    if (messageData === null || messageData.length !== messageCount) {
+    if (messageData === null) {
+      yield put ({ type: "messageGetRequest/pending" })
       try {
         const { MessageCount, MessageFind } = yield call(messageFindRequest, action.payload);
         console.log("MessageFind", MessageFind);
@@ -142,6 +159,21 @@ function* getMessageRequest(action) {
       catch(e) {
         yield put({ type: "messageGetRequest/rejected" });
       }
+    } else if(messageData.length != messageCount) {
+      try {
+        const { MessageCount, MessageFind } = yield call(messageFindRequest, action.payload);
+        console.log("MessageFind", MessageFind);
+        console.log("MessageCount", MessageCount);
+        yield put({ type: "messageGetRequest/resolved", payload: MessageFind })
+        yield put({ type: "countGetRequest/resolved", payload: MessageCount })
+        const lastMessagesData = yield call(filterArrayMessages, MessageFind, action.payload);
+        yield put({ type: "lastMessages/array", payload: lastMessagesData})
+        yield delay(2000);
+      }
+      catch(e) {
+        yield put({ type: "messageGetRequest/rejected" });
+      }
+
     } else {
       try {
         const { MessageCount } = yield call(messageCountRequest, action.payload);
@@ -157,14 +189,106 @@ function* getMessageRequest(action) {
 }
 
 export function* getMessageRequestSaga() {
-  //while(true) {
+  while(true) {
     const task = yield takeLatest("messageGet/request", getMessageRequest);
     console.log("task", task);
     const action = yield take("cancelMessageGet/request");
     console.log("action", action);
     yield cancel(task);
     console.log("canceled", task.isCancelled());
-  //}
+  }
+}
+
+async function oneUserMessagefindRequest (id, _id, count = 0) {
+  const arrayMessages = [];
+  let data = await API.request(messagesFind, {
+    query: JSON.stringify([
+      {
+        $or: [{___owner: id, "to._id": {$eq: _id}}, {___owner: _id, "to._id": {$eq: id}}]  
+      },
+      {
+        sort: [{_id: 1}],
+        skip: [count]
+      }
+    ])
+  })
+  arrayMessages.push(data.MessageFind)
+  if (data.MessageCount > 100) {
+    count += 100
+    const res = await messageFindRequest (id, count)
+    arrayMessages.push(res.MessageFind)
+  }
+  data = {
+    MessageFind: arrayMessages.flat(),
+    MessageCount: data.MessageCount
+  }
+  console.log("data", data)
+  return data
+}
+
+async function oneUserMessageCountRequest (id, _id) {
+  const messageCount = await API.request(messagesCount, {
+    query: JSON.stringify([
+      {
+        $or: [{___owner: id, "to._id": {$eq: _id}}, {___owner: _id, "to._id": {$eq: id}}]
+      }
+    ])
+  })
+  return messageCount
 }
 
 
+function* getOneUserMessageRequest(action) {
+  while(true) {
+    const messageData = yield select(getMessageData);
+    const messageCount = yield select(getMessageCount)
+    if (messageData === null) {
+      yield put ({ type: "messageGetRequest/pending" })
+      try {
+        const { MessageCount, MessageFind } = yield call(oneUserMessagefindRequest, action.payload.id, action.payload._id);
+        console.log("MessageFind", MessageFind);
+        console.log("MessageCount", MessageCount);
+        yield put({ type: "messageGetRequest/resolved", payload: MessageFind })
+        yield put({ type: "countGetRequest/resolved", payload: MessageCount })
+        yield delay(2000);
+      }
+      catch(e) {
+        yield put({ type: "messageGetRequest/rejected" });
+      }
+    } else if(messageData.length != messageCount) {
+      try {
+        const { MessageCount, MessageFind } = yield call(oneUserMessagefindRequest, action.payload.id, action.payload._id);
+        console.log("MessageFind", MessageFind);
+        console.log("MessageCount", MessageCount);
+        yield put({ type: "messageGetRequest/resolved", payload: MessageFind })
+        yield put({ type: "countGetRequest/resolved", payload: MessageCount })
+        yield delay(2000);
+      }
+      catch(e) {
+        yield put({ type: "messageGetRequest/rejected" });
+      }
+
+    } else {
+      try {
+        const { MessageCount } = yield call(oneUserMessageCountRequest, action.payload.id, action.payload._id);
+        console.log("MessageCount", MessageCount);
+        yield put({ type: "countGetRequest/resolved", payload: MessageCount })
+        yield delay(2000);
+      }
+      catch(e) {
+        yield put({ type: "messageGetRequest/rejected" });
+      }
+    }
+  }
+}
+
+export function* getOneUserMessageRequestSaga() {
+  while(true) {
+    const task = yield takeLatest("oneUserMessageGet/request", getOneUserMessageRequest);
+    console.log("task", task);
+    const action = yield take("cancelMessageGet/request");
+    console.log("action", action);
+    yield cancel(task);
+    console.log("canceled", task.isCancelled());
+  }
+}

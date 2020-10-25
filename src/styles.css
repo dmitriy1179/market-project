@@ -19,3 +19,7 @@ img {
 #footer {
   height: 150px
 }
+
+.lastMessage:hover {
+  background: Gainsboro;
+}
