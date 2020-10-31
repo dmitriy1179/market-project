@@ -33,7 +33,7 @@ const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
             <div className="border rounded my-3 mx-auto w-75 p-3">
               {messageData.map((message, index) => 
                 (message.owner._id === id ?
-                  <div key={index} className="d-flex ml-3 my-2 px-3">
+                  <div key={index} className="d-flex ml-3 my-2 px-3 text-success">
 
                       <div style={{fontSize:"18px"}}> 
                         Your message:
@@ -46,7 +46,7 @@ const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
                         {new Date(message.createdAt/1).toLocaleString()}
                       </div>
                   </div> :
-                  <div key={index} className="d-flex mr-3 my-2 px-3">
+                  <div key={index} className="d-flex mr-3 my-2 px-3 text-primary">
 
                     <div style={{fontSize:"18px"}}>
                       {message.owner.nick || message.owner.login}:

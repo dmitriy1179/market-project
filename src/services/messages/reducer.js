@@ -1,6 +1,5 @@
 const initialMessagesState = {
   messageData: null,
-  messageCount: null,
   messageSendStatus: "resolved",
   isSendMessage: false,
   isDisabled: false,
@@ -46,12 +45,6 @@ function messagesReducer(state = initialMessagesState, action) {
         messageGetStatus: "resolved",
         messageData: action.payload,
       };
-    case "countGetRequest/resolved":
-      return {
-        ...state,
-        messageGetStatus: "resolved",
-        messageCount: action.payload
-      };  
     case "messageGetRequest/rejected":
       return {
         ...state,

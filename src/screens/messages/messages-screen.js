@@ -27,7 +27,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
         status={messageGetStatus}
         content="You have no messages"
       >
-        {messageData === null ? null :
+        {lastMessagesData === null ? null :
           <div className="w-75 mx-auto">
             <ul className="list-unstyled">
               <li key={-1}>
