@@ -75,7 +75,7 @@ const messagesFind = gql`
   }
 `;
 
-async function messageFindRequest (id, count = 0) {
+async function messageFindRequest (id, sort, count = 0) {
   const arrayMessages = [];
   let data = await API.request(messagesFind, {
     query: JSON.stringify([
@@ -83,7 +83,7 @@ async function messageFindRequest (id, count = 0) {
         $or: [{___owner: id}, {"to._id": {$eq: id}}]  
       },
       {
-        sort: [{_id: - 1}],
+        sort: [{_id: Number(sort)}],
         skip: [count]
       }
     ])
@@ -91,7 +91,7 @@ async function messageFindRequest (id, count = 0) {
   arrayMessages.push(data.MessageFind)
   if (data.MessageCount > 100) {
     count += 100
-    const res = await messageFindRequest (id, count)
+    const res = await messageFindRequest (id, sort, count)
     arrayMessages.push(res)
   }
   data = arrayMessages.flat()
@@ -111,6 +111,7 @@ const filterArrayMessages = (arr, id) => {
     elem.to._id !== arr[0].to._id :
     elem.to._id !== arr[0].owner._id
     )
+
   console.log("tempArray", tempArray)
   if (tempArray.length !== 0) {
     const res = filterArrayMessages(tempArray, id)
@@ -127,15 +128,13 @@ function* getMessageRequest(action) {
     if (messageData === null) {
       yield put ({ type: "messageGetRequest/pending" })
       try {
-        const messageFind = yield call(messageFindRequest, action.payload);
+        const messageFind = yield call(messageFindRequest, action.payload, -1);
         console.log("MessageFind", messageFind);
         yield put({ type: "messageGetRequest/resolved", payload: messageFind })
         const lastMessages = yield call(filterArrayMessages, messageFind, action.payload);
         yield put({ type: "lastMessages/array", payload: lastMessages})
         console.log("LastMessages", lastMessages)
-        const arr = []
-        lastMessages.forEach(element => arr.unshift(element)); 
-        console.log("ReverseLastMessages", arr)
+ 
         yield delay(2000);
       }
       catch(e) {
@@ -143,13 +142,21 @@ function* getMessageRequest(action) {
       }
     } else {
       try {
-        const messageFind = yield call(messageFindRequest, action.payload, messageData.length);
+        const messageFind = yield call(messageFindRequest, action.payload, 1, messageData.length);
         console.log("messageFind", messageFind);
         if (messageFind.length !== 0) {
           yield put({ type: "messageGetRequest/resolved", payload: messageFind.concat(messageData) })
 
-          
+          /*const arr = []
+          lastMessagesData.forEach(element => arr.unshift(element)); 
+          console.log("arr", arr)*/
+
           const arrLastMessages = messageFind.concat(lastMessagesData.reverse())
+
+          
+          //const arrLastMessages = messageFind.concat(arr)
+          console.log("arrLastMessages", arrLastMessages)
+
           const lastMessages = yield call(filterArrayMessages, arrLastMessages, action.payload);
           console.log("lastMessages", lastMessages)
           yield put({ type: "lastMessages/array", payload: lastMessages})

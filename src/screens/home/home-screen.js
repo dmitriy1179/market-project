@@ -121,15 +121,17 @@ const HomeScreen = () => {
                 <div className="ml-3">
                   Addresses:
                 </div>
-                <div className="font-italic ">
-                  {result.addresses === null ? null :
-                    (result.addresses.length === 0 ? null :
-                      result.addresses.map((address, index) => (
-                        index === 0 ? <span key={index} className="ml-2 text-justify text-wrap">{address}</span>
-                        : <span key={index} className="ml-1 text-justify text-wrap">; {address}</span>
-                      ))
-                    )
-                  }
+                <div className="font-italic text-justify text-break">
+                  <ul>
+                    {result.addresses === null ? null :
+                      (result.addresses.length === 0 ? null :
+                        result.addresses.map((address, index) => (
+                          index === result.addresses.length-1 ? <li key={index} className="ml-2 text-break">{address}</li>
+                          : <li key={index} className="ml-2 text-break">{address};</li>
+                        ))
+                      )
+                    }
+                  </ul>
                 </div>
               </div>
               <div className="d-flex" style={{fontSize: "1rem"}}>

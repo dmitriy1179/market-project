@@ -12,7 +12,7 @@ const NavBar = ({ isLoggedIn, isNewUser, dispatch }) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
+      <div className="collapse navbar-collapse d-flex justify-content-between">
         <div>
           {isLoggedIn === true ? 
             (<ul className="navbar-nav">

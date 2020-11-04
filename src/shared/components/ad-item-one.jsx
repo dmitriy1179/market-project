@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdItemOne = ({ _id, title, createdAt, price, description, owner, onClick, children }) => {
+const AdItemOne = ({ _id, title, createdAt, price, address, description, owner, onClick, children }) => {
   return (
     <div className="border rounded my-3 mx-auto w-75 p-3">
       <div className="font-weight-bolder text-justify my-3" style={{fontSize:"26px"}}>{title}</div>
@@ -14,17 +14,17 @@ const AdItemOne = ({ _id, title, createdAt, price, description, owner, onClick, 
       </div>
       <div className="d-flex my-3" style={{fontSize: "18px"}}>
         <div>
-          Addresses:
+          Addresses: 
         </div>
-        <div className="font-italic ">
-          {owner.addresses === null ? null :
+        <div className="font-italic ml-2">
+          {address || (owner.addresses === null ? null :
             (owner.addresses.length === 0 ? null :
               owner.addresses.map((address, index) => (
-                index === 0 ? <span key={index} className="ml-2 text-justify text-wrap">{address}</span>
+                index === 0 ? <span key={index} className="text-justify text-wrap">{address}</span>
                 : <span key={index} className="text-justify text-wrap">; {address}</span>
               ))
             )
-          }
+          )}
         </div>
       </div>
       <div className="d-flex my-3" style={{fontSize: "18px"}}>
