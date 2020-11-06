@@ -146,7 +146,7 @@ const ChangeUserPasswordForm = ({ dispatch }) => {
       </div>
       <div className="form-group row">
         <label className="col-sm-2 col-form-label">New password</label>
-        <div className="col-sm-10">
+        <div className="col-sm-10 mt-2">
           <input
             type="password"
             className="form-control"
