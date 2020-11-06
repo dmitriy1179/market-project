@@ -17,8 +17,6 @@ import MessagesScreen from "./screens/messages";
 import MessagesOneUserScreen from "./screens/messages-one-user"
 import exchange1 from "./shared/images/exchange1.png"
 
-
-
 const NotFound = () => <div className="mt-3 flex-grow-1"> Page not found</div>;
 
 function App() {
@@ -27,7 +25,6 @@ function App() {
       <header className="bg-secondary d-flex">
         <img src={exchange1}
           className="img-fluid rounded pl-3 my-auto  ml-3"
-          alt="picture"
           style={{width:"70px", height:"70px"}} 
         />  
         <div className="text-white font-weight-bold text-left align-middle p-2 m-3" style={{fontSize:"24px"}}>
