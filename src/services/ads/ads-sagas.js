@@ -56,7 +56,7 @@ async function findAllAdsDataRequest (skip, limit) {
     query: JSON.stringify([
       {},
       {
-        sort: [{_id: 1}],
+        sort: [{_id: -1}],
         skip: [skip],
         limit: [limit]
       }
@@ -83,7 +83,7 @@ async function findAdsDataRequest (value, skip, limit) {
           $or: [{title: `/${String(value)}/`}, {description: `/${String(value)}/`}, {tags: `/${String(value)}/`}]  
         },
         {
-          sort: [{_id: 1}],
+          sort: [{_id: -1}],
           skip: [skip],
           limit: [limit]
         }
@@ -170,7 +170,7 @@ async function findUserAllAdsDataRequest (id, skip, limit) {
         ___owner: id
       },
       {
-        sort: [{_id: 1}],
+        sort: [{_id: -1}],
         skip: [skip],
         limit: [limit]
       }
@@ -199,7 +199,7 @@ async function findUserAdsDataRequest (id, value, skip, limit) {
         $or: [{title: `/${String(value)}/`}, {description: `/${String(value)}/`}, {tags: `/${String(value)}/`}]  
       },
       {
-        sort: [{_id: 1}],
+        sort: [{_id: -1}],
         skip: [skip],
         limit: [limit]
       }

@@ -1,7 +1,7 @@
 const initialState = {
   isLoggedIn: !!localStorage.getItem("token"),
   isNewUser: "reg",
-  status: "idle"
+  status: "idle",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -57,8 +57,8 @@ const authReducer = (state = initialState, action) => {
     case "user/logout":
       return {
         ...state,
+        isLoggedIn: false,
         status: "idle",
-        isLoggedIn: false
       };
     default:
       return state;

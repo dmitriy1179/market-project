@@ -34,37 +34,37 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <ProtectedRoute exact path="/" redirectTo="/login">
+          <ProtectedRoute exact path="/" >
             <HomeScreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/profile/edit/:_id" redirectTo="/login">
+          <ProtectedRoute exact path="/profile/edit/:_id" >
             <ProfileEditSreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ad/find" redirectTo="/login">
+          <ProtectedRoute exact path="/ad/find" >
             <AdFind />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ad/curUser" redirectTo="/login">
+          <ProtectedRoute exact path="/ad/curUser" >
             <MyAdsScreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ad/otherUser/:_id" redirectTo="/login">
+          <ProtectedRoute exact path="/ad/otherUser/:_id" >
             <OtherAdOneSreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ads/otherUser/:_id" redirectTo="/login">
+          <ProtectedRoute exact path="/ads/otherUser/:_id" >
             <OtherUserAdsScreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ad/curUser/:_id" redirectTo="/login">
+          <ProtectedRoute exact path="/ad/curUser/:_id" >
             <MyAdOneSreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ad/curUser/edit/:_id" redirectTo="/login">
+          <ProtectedRoute exact path="/ad/curUser/edit/:_id" >
             <MyAdEditSreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/ad/post" redirectTo="/login">
+          <ProtectedRoute exact path="/ad/post" >
             <PostAdUser />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/messages" redirectTo="/login">
+          <ProtectedRoute exact path="/messages" >
             <MessagesScreen />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/messages/:_id" redirectTo="/login">
+          <ProtectedRoute exact path="/messages/:_id" >
             <MessagesOneUserScreen />
           </ProtectedRoute>
           <Route path="/login" exact>

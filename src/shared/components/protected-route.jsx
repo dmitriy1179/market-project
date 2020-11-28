@@ -2,8 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
-const ProtectedRoute = ({ children, redirectTo, isAuth, ...rest }) => {
+const ProtectedRoute = ({ children, dispatch, redirectTo, isAuth, ...rest }) => {
+  
   console.log("isAuth", isAuth);
+
   return (
     <Route
       {...rest}
@@ -22,12 +24,14 @@ const ProtectedRoute = ({ children, redirectTo, isAuth, ...rest }) => {
     />
   );
 };
+
 ProtectedRoute.defaultProps = {
-  redirectTo: "/"
+  redirectTo: "/login"
 };
 
 const mapStateToProps = (state) => ({
-  isAuth: state.auth.isLoggedIn
+  isAuth: state.auth.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(ProtectedRoute);
+

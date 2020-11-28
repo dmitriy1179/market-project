@@ -51,7 +51,7 @@ const AdFind = ({ dispatch, adsData, adsCount, status, skip }) => {
   console.log("limit", limit)
 
   return (
-    <div className="Container mt-3 flex-grow-1">
+    <div className="mt-3 flex-grow-1">
       <div className="row input-group m-3 mx-auto w-50">
         <label className="col-sm-6 col-form-label">Select the number of ads on the page</label>
         <div className="col-sm-6">

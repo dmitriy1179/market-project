@@ -7,7 +7,7 @@ const NavBar = ({ isLoggedIn, isNewUser, dispatch }) => {
   const handleChange = (event) => {
     event.preventDefault()
     dispatch ({ type: "new-user", payload: event.target.value })
-    console.log("radio")
+    console.log("radio", event.target.value)
   }
 
   return (

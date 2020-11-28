@@ -146,6 +146,7 @@ const MyAdEditSreen = () => {
     e.preventDefault();
     try {
       setStatus("searching");
+      console.log("values", values)
       API.request(editAd, values)
        .then((res) => {
           console.log("res", res)
@@ -167,7 +168,7 @@ const MyAdEditSreen = () => {
 
 
   return (
-    <div className="Container mt-3 flex-grow-1">
+    <div className="mt-3 flex-grow-1">
       {values === null ? null : 
         (<form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
           <div className="form-group row">

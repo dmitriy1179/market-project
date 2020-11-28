@@ -98,7 +98,7 @@ const PostAdUser = () => {
   };
 
   return (
-    <div className="Container mt-3 flex-grow-1">
+    <div className="mt-3 flex-grow-1">
       <form onSubmit={onSubmit} className="col-8 mx-auto mt-3">
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Title *</label>

@@ -170,49 +170,53 @@ const Login = ({ dispatch, authStatus, isNewUser }) => {
 
   return (
     <div className="mt-3 flex-grow-1">
-      <h1 className="m-3">{isNewUser === "auth" ? "Authorization" :
-      (isNewUser === "reg" ? "Registration" : "Change password")} </h1>
+      <h1 className="m-3">
+        {isNewUser === "auth" ? "Authorization" : null}
+        {isNewUser === "reg" ? "Registration" : null}
+        {isNewUser === "chng" ? "Change password" : null}
+      </h1>
       <div className="col-sm-12 col-md-5 mx-auto">
-        {isNewUser === "auth" ? <LoginForm dispatch={dispatch} /> :
-        (isNewUser === "reg" ? <CreateUserForm dispatch={dispatch} /> : <ChangeUserPasswordForm dispatch={dispatch} />)}
+        {isNewUser === "auth" ? <LoginForm dispatch={dispatch} /> : null}
+        {isNewUser === "reg" ? <CreateUserForm dispatch={dispatch} /> : null}
+        {isNewUser === "chng" ? <ChangeUserPasswordForm dispatch={dispatch} /> : null}
       </div>
       <div className="my-3">
         {authStatus === "pending" ? <Spinner /> : null}
       </div>
-      <div className="mt-2">
+      <div className="my-5">
         {authStatus === "rejected" ? (
-          <span className="text-danger">Something went wrong</span>
+          <span className="alert alert-danger mb-0">Something went wrong</span>
         ) : null}
       </div>
-      <div className="mt-2">
+      <div className="my-5">
         {authStatus === "notRegistered" ? (
-          <span className="text-warning">
+          <span className="alert alert-warning mb-0">
             You entered an incorrect password or login or you are not registered, please enter the correct data or register
           </span>
         ) : null}
       </div>
-      <div className="mt-2">
+      <div className="my-5">
         {authStatus === "isRegistered" ? (
-          <span className="text-info">
+          <span className="alert alert-info mb-0">
             The user with the specified data is registered
           </span>
         ) : null}
       </div>
-      <div className="mt-2">
+      <div className="my-5">
         {authStatus === "registered" ? (
-          <span className="text-primary">You are registered, please log in</span>
+          <span className="alert alert-primary mb-0">You are registered, please log in</span>
         ) : null}
       </div>
-      <div className="mt-2">
+      <div className="my-5">
         {authStatus === "notChanged" ? (
-          <span className="text-warning">
+          <span className="alert alert-warning mb-0">
             You entered an incorrect data 
           </span>
         ) : null}
       </div>
-      <div className="mt-2">
+      <div className="my-5">
         {authStatus === "changed" ? (
-          <span className="text-primary">
+          <span className="alert alert-primary mb-0">
             Your password has been successfully changed
           </span>
         ) : null}

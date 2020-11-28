@@ -3,7 +3,7 @@ import Spinner from "./spinner"
 import { Redirect } from "react-router-dom";
 
 
-const StatusResolver = ({ status, noData, content, children }) => {
+const StatusResolver = ({ status, noData, redirectTo, content, children }) => {
   if (status === "searching") {
     return <Spinner />;
   }
@@ -20,13 +20,13 @@ const StatusResolver = ({ status, noData, content, children }) => {
     return children;
   }
   if (status === "deleted") {
-    return <Redirect to="/ad/curUser" />
+    return <Redirect to={{ pathname: redirectTo }}/>
   }
 };
 
 StatusResolver.defaultProps = {
   noData: false,
-  content: "No Data"
+  content: "No Data",
 };
 
 export default StatusResolver

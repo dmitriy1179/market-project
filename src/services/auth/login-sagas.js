@@ -9,6 +9,7 @@ const loginQuery = gql`
 `;
 
 async function request (query, values) {
+  console.log("API", API)
   const data = await API.request(query, values);
   return data
 }

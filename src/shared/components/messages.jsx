@@ -2,7 +2,7 @@ import React from "react";
 import StatusResolver from "../components/statusResolver"
 import jwt_decode from "jwt-decode";
 
-const AddMessage = ({ dispatch, userId, name, messageSendStatus, isSendMessage, isDisabled, isSendMessageYourself }) => {
+const AddMessage = ({ dispatch, userId, name, messageSendStatus, isSendMessage, isDisabled, isSendMessageYourself, isMessagesOneUserScreen }) => {
   const [values, setValues] = React.useState({"to": {"_id": userId}})
   const textareaElRef = React.useRef(null);
   const token = localStorage.getItem("token")
@@ -32,7 +32,7 @@ const AddMessage = ({ dispatch, userId, name, messageSendStatus, isSendMessage, 
   return (
     <div className="border rounded my-2 mx-auto w-75 p-3">
       <form onSubmit={sendMessage}>
-        <div className="mt-2 form-group">
+        <div className="mt-2 form-group mb-0">
           <textarea
             className="form-control"
             placeholder="Enter message"
@@ -54,23 +54,34 @@ const AddMessage = ({ dispatch, userId, name, messageSendStatus, isSendMessage, 
       <StatusResolver
         status={messageSendStatus}
       >
-        {isSendMessage ? 
-          <span className="text-info">
-            The message was successfully sent to the user {name}
-          </span> 
-          :
-          null    
-        }
-        {isSendMessageYourself ? 
-          <span className="text-warning">
-            You cannot send yourself a message
-          </span> 
-          :
-          null    
-        }
+        {isMessagesOneUserScreen ? null :
+          (isSendMessage ?
+            <div className="my-3">
+              <span className="alert alert-info mb-0">
+                The message was successfully sent to the user {name}
+              </span> 
+            </div> 
+            :
+            null    
+          ||
+          isSendMessageYourself ?
+            <div className="my-3">
+              <span className="alert alert-warning mb-0">
+                You cannot send yourself a message
+              </span>
+            </div>    
+            :
+            null    
+          )
+        }  
       </StatusResolver>    
     </div>
   )
 }
+
+AddMessage.defaultProps = {
+  isMessagesOneUserScreen: false,
+};
+
 
 export default AddMessage

@@ -5,7 +5,6 @@ import StatusResolver from "./../../shared/components/statusResolver";
 import { connect } from "react-redux";
 import AddMessage from "../../shared/components/messages";
 
-
 const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
   messageSendStatus, isSendMessage, isSendMessageYourself, isDisabled }) => {
   const token = localStorage.getItem("token")
@@ -30,39 +29,51 @@ const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
       <StatusResolver status={messageGetStatus}>
         {messageData === null ? null :
           <>
-            <div className="border rounded my-3 mx-auto w-75 p-3">
+            <h2 className="w-75 mx-auto text-break text-secondary">Correspondence with the user {messageData[0].owner._id === id ?
+              messageData[0].to.nick || messageData[0].to.login :
+              messageData[0].owner.nick || messageData[0].owner.login
+              }
+            </h2>
+            <div className="border rounded my-3 mx-auto w-75 p-3 d-flex flex-column">
               {messageData.map((message, index) => 
                 (message.owner._id === id ?
-                  <div key={index} className="d-flex ml-3 my-2 px-3 text-success">
-
-                      <div style={{fontSize:"18px"}}> 
-                        Your message:
-                      </div> 
-                  
-                      <div className="font-italic text-justify mx-2 flex-grow-1">
-                        "{message.text}""
+                  <div key={index} className="row d-flex my-2 px-3 text-success ml-3">
+                    <div className="col-auto mt-2 pt-1 ml-3" style={{fontSize:"16px"}}> 
+                      Your message:
+                    </div> 
+                    <div className="col font-italic text-justify p-0 d-flex">
+                      <div className="alert alert-success mb-0">
+                        <p className="mb-1 text-break">
+                          {message.text}
+                        </p>
+                        <hr className="my-1"></hr>
+                        <p style={{fontSize:"12px"}} className="float-right mb-0">
+                          {new Date(message.createdAt/1).toLocaleString()}
+                        </p>
                       </div>
-                      <div style={{fontSize:"14px"}} className="mt-1">
-                        {new Date(message.createdAt/1).toLocaleString()}
-                      </div>
+                    </div>
                   </div> :
-                  <div key={index} className="d-flex mr-3 my-2 px-3 text-primary">
-
-                    <div style={{fontSize:"18px"}}>
+                  <div key={index} className="row d-flex mr-3 my-2 px-3 text-primary">
+                    <div className="col-auto text-break text-left mt-2 pt-1" style={{fontSize:"16px"}}>
                       {message.owner.nick || message.owner.login}:
                     </div>
-                
-                    <div className="font-italic text-justify mx-2 flex-grow-1">
-                      "{message.text}"
-                    </div>
-                    <div style={{fontSize:"14px"}} className="mt-1">
-                      {new Date(message.createdAt/1).toLocaleString()}
+                    <div className="col font-italic text-justify p-0 d-flex mr-3">
+                      <div className="alert alert-primary mb-0">
+                        <p className="mb-1 text-break">
+                          {message.text}
+                        </p>
+                        <hr className="my-1"></hr>
+                        <p style={{fontSize:"12px"}} className="float-right mb-0">
+                          {new Date(message.createdAt/1).toLocaleString()}
+                        </p>
+
+                      </div>
                     </div>
                   </div>
                 )
               )}      
             </div>
-            <AddMessage 
+            <AddMessage
               userId={_id}
               name={messageData[0].owner._id === id ? 
                 messageData[0].to.nick || messageData[0].to.login :
@@ -71,6 +82,7 @@ const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
               isSendMessage={isSendMessage}
               isSendMessageYourself={isSendMessageYourself}
               isDisabled={isDisabled}
+              isMessagesOneUserScreen={true}
               dispatch={dispatch}
             />
           </>

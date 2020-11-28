@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import avatar from "../../shared/images/avatar.png"
 import { Link } from "react-router-dom";
 import StatusResolver from "./../../shared/components/statusResolver"
+import { connect } from "react-redux";
 
 const userData = gql`
   query userFind($query: String) {
@@ -29,7 +30,17 @@ const userData = gql`
   }
 `;
 
-const HomeScreen = () => {
+const deleteAccountMutation = gql`
+  mutation deleteAccount($id: String) {
+    UserDelete(user: {
+      _id: $id
+     }) {
+      _id
+    }
+  }
+`;
+
+const HomeScreen = ({ dispatch }) => {
   const token = localStorage.getItem("token")
   const { sub } = jwt_decode(token);
   const { id } = sub
@@ -39,22 +50,36 @@ const HomeScreen = () => {
   const searchUserData = () => {
     try {
       setStatus("searching");
-        API.request(userData, {
-          query: JSON.stringify([
-            {
-              _id: id
-            }
-          ])
-        }).then((res) => {
-          console.log("res", res)
-          setResult(res.UserFind[0]);
-          setStatus("resolved");
+      API.request(userData, {
+        query: JSON.stringify([
+          {
+            _id: id
+          }
+        ])
+      }).then((res) => {
+        console.log("res", res)
+        setResult(res.UserFind[0]);
+        setStatus("resolved");
       });
     } catch (e) {
         setStatus("rejected");
     }  
-
   };
+
+  const deleteAccount = async (e) => {
+    e.preventDefault();
+    try {
+      setStatus("searching");
+      const res = await API.request(deleteAccountMutation, { _id: id });
+      console.log("resDel", res);
+      localStorage.removeItem("token");
+      API.setHeader("Authorization", null);
+      dispatch({ type: "user/logout" });
+    } catch (e) {
+      setStatus("rejected");
+    }     
+  }
+
   React.useEffect(() => {
     searchUserData()
   }, [])
@@ -106,12 +131,12 @@ const HomeScreen = () => {
                 <div className="ml-3">
                   Phones:
                 </div>
-                <div className="font-italic">
+                <div className="font-italic text-justify text-break">
                   {result.phones === null ? null :
                     (result.phones.length === 0 ? null :
                       result.phones.map((phone, index) => (
-                        index === 0 ? <span key={index} className="ml-2 text-wrap">{phone}</span>
-                        : <span key={index} className="ml-1 text-wrap">, {phone}</span>
+                        index === 0 ? <span key={index} className="ml-2">{phone}</span>
+                        : <span key={index} className="ml-1">, {phone}</span>
                       ))
                     )
                   }
@@ -143,9 +168,15 @@ const HomeScreen = () => {
                 </div>
               </div>
               <div className="d-flex justify-content-end flex-grow-1 m-2 align-items-end">
+                  <button type="button"
+                    className="btn btn-outline-danger btn-sm mr-3"
+                    onClick = {deleteAccount}
+                  >
+                  Delete Account
+                  </button>
                 <Link to={`/profile/edit/${id}`}
                   className="btn btn-outline-secondary btn-sm"
-                  role="button">Add/change profile data
+                  role="button">Add/change profile's data
                 </Link>
               </div>    
             </div>  
@@ -157,4 +188,4 @@ const HomeScreen = () => {
   )
 };
 
-export default HomeScreen;
+export default connect()(HomeScreen);

@@ -150,6 +150,8 @@ const Answers = ({ id }) => {
 
   const viewAnswers = (id) => {
     setIsViewAnswers(!isViewAnswers)
+    console.log("answersId", answersId)
+
     const arrAnswersId = answersId
     arrAnswersId.map((answerId) => {
       if (Object.keys(answerId)[0] === id) {

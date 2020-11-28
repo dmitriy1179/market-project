@@ -92,6 +92,7 @@ const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
           noData={adsData !== null && adsData.length === 0}
           status={status}
           content="You have no ads loaded"
+          redirectTo="/ad/curUser"
         >
           <ul>
             {adsData === null ? null : 

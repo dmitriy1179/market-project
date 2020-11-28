@@ -96,6 +96,7 @@ const MyAdOneSreen = () => {
       <div className="col-sm-12 my-3">
         <StatusResolver
           status={status}
+          redirectTo="/ad/curUser"
         >
           {result === null ? null : 
             (result.images === null || result.images.length === 0 ?

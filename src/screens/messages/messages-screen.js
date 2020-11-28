@@ -17,7 +17,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
     }
   }, [])
 
-  console.log(messageData, "result", messageData !== null);
+  console.log(messageData, "messageData", messageData !== null);
   console.log("lastMessagesData", lastMessagesData)
 
   return ( 
@@ -32,8 +32,8 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
             <ul className="list-unstyled">
               <li key={-1}>
                 <div className="row d-flex p-3">
-                  <div className="col-4 font-weight-bold" style={{fontSize:"20px"}}>User</div>
-                  <div className="col-6 font-weight-bold" style={{fontSize:"20px"}}>Last message</div>
+                  <div className="col-3 font-weight-bold" style={{fontSize:"20px"}}>User</div>
+                  <div className="col-7 font-weight-bold" style={{fontSize:"20px"}}>Last message</div>
                   <div className="col-2 font-weight-bold" style={{fontSize:"20px"}}>Created</div>
                 </div>
               </li>
@@ -44,7 +44,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                       <li key={index}>
                         <Link to={`/messages/${elem.to._id}`} className="text-reset text-decoration-none">
                           <div className="row d-flex border-top p-3 lastMessage">
-                            <div className="col-2">
+                            <div className="col-1 d-flex align-items-center">
                               {elem.to.avatar === null ? 
                                 <img src={avatar}
                                   className="img-fluid rounded-circle"
@@ -59,10 +59,10 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                                 />
                               }
                             </div>
-                            <div className="col-2 d-flex align-items-center text-left" style={{fontSize:"18px"}}>
+                            <div className="col-2 d-flex align-items-center justify-content-center text-break" style={{fontSize:"18px"}}>
                               {elem.to.nick || elem.to.login}
                             </div>
-                            <div className="col-6 d-flex align-items-center font-italic text-left text-break text-justify" style={{fontSize:"18px"}}>
+                            <div className="col-7 d-flex align-items-center font-italic text-break text-justify" style={{fontSize:"18px"}}>
                               "{elem.text}"
                             </div>
                             <div className="col-2 d-flex align-items-center justify-content-center" style={{fontSize:"14px"}}>
@@ -76,7 +76,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                       <li key={index}>
                         <Link to={`/messages/${elem.owner._id}`} className="text-reset text-decoration-none">
                           <div className="row d-flex border-top p-3 lastMessage">
-                            <div className="col-2">
+                            <div className="col-1 d-flex align-items-center">
                               {elem.owner.avatar === null ? 
                                 <img src={avatar}
                                   className="img-fluid rounded-circle"
@@ -91,10 +91,10 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                                 />
                               }
                             </div>
-                            <div className="col-2 d-flex align-items-center text-left" style={{fontSize:"18px"}}>
+                            <div className="col-2 d-flex align-items-center justify-content-center text-break" style={{fontSize:"18px"}}>
                               {elem.owner.nick || elem.owner.login}
                             </div>
-                            <div className="col-6 d-flex align-items-center font-italic text-left text-break text-justify" style={{fontSize:"18px"}}>
+                            <div className="col-7 d-flex align-items-center font-italic text-break text-justify" style={{fontSize:"18px"}}>
                               "{elem.text}"
                             </div>
                             <div className="col-2 d-flex align-items-center justify-content-center" style={{fontSize:"14px"}}>
