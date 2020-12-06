@@ -34,7 +34,7 @@ const myAdOne = gql`
   }
 `;
 
-const OtherAdOneSreen = ({ dispatch, messageSendStatus, isSendMessage, isSendMessageYourself, isDisabled}) => {
+const OtherAdOneSreen = ({ dispatch, messageSendStatus, isSendMessage, isSendMessageYourself, isDisabled, token}) => {
   const { _id } = useParams()
   const [result, setResult] = React.useState(null);
   const [status, setStatus] = React.useState("idle");
@@ -109,6 +109,7 @@ const OtherAdOneSreen = ({ dispatch, messageSendStatus, isSendMessage, isSendMes
                 isSendMessageYourself={isSendMessageYourself}
                 isDisabled={isDisabled}
                 dispatch={dispatch}
+                token={token}
               />
             </>
           }
@@ -122,7 +123,8 @@ const mapStateToProps = (state) => ({
   messageSendStatus: state.messages.messageSendStatus,
   isSendMessage: state.messages.isSendMessage,
   isSendMessageYourself: state.messages.isSendMessageYourself,
-  isDisabled: state.messages.isDisabled
+  isDisabled: state.messages.isDisabled,
+  token: state.auth.token
 });
 
 export default connect(mapStateToProps)(OtherAdOneSreen);

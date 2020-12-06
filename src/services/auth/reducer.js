@@ -1,6 +1,7 @@
 const initialState = {
   isLoggedIn: !!localStorage.getItem("token"),
   isNewUser: "reg",
+  token: localStorage.getItem("token"),
   status: "idle",
 };
 
@@ -15,6 +16,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
+        token: action.payload,
         status: "resolved"
       };
     case "login/notRegistered":
@@ -58,6 +60,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: false,
+        token: null,
         status: "idle",
       };
     default:

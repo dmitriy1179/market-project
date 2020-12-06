@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import StatusResolver from "./../../shared/components/statusResolver";
 import { connect } from "react-redux";
 
-const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip }) => {
-  const token = localStorage.getItem("token")
+const MyAdsScreen = ({ dispatch, adsData, adsCount, status, skip, token }) => {
   const { sub } = jwt_decode(token);
   const { id } = sub
   const [isDelAd, setIsDelAD] = React.useState(false)
@@ -150,6 +149,7 @@ const mapStateToProps = (state) => ({
   adsCount: state.ads.adsCount,
   status: state.ads.status,
   skip: state.ads.skip,
+  token: state.auth.token,
 });
 
 export default connect(mapStateToProps)(MyAdsScreen);

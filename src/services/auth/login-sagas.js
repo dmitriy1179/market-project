@@ -26,7 +26,7 @@ function* loginRequest(action) {
       localStorage.setItem("token", login);
       console.log(localStorage.getItem("token"))
       API.setHeader("Authorization", `Bearer ${login}`);
-      yield put({ type: "login/resolved" });
+      yield put({ type: "login/resolved", payload: login });
     }
   }
   catch(e) {

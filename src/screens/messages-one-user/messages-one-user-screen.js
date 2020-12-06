@@ -6,11 +6,10 @@ import { connect } from "react-redux";
 import AddMessage from "../../shared/components/messages";
 
 const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
-  messageSendStatus, isSendMessage, isSendMessageYourself, isDisabled }) => {
-  const token = localStorage.getItem("token")
+  messageSendStatus, isSendMessage, isSendMessageYourself, isDisabled, token }) => {
   const { sub } = jwt_decode(token);
-  const { id } = sub
-  const { _id } = useParams()
+  const { id } = sub;
+  const { _id } = useParams();
 
   React.useEffect(() => {
     dispatch({ type: "oneUserMessageGet/request", payload: {
@@ -21,7 +20,7 @@ const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
       dispatch({ type: "cancelMessageGet/request" })
     }
   }, [])
-
+  
   console.log(messageData, "messageData", messageData !== null);
 
   return (
@@ -83,6 +82,7 @@ const MessagesOneUserScreen = ({ dispatch, messageData, messageGetStatus,
               isSendMessageYourself={isSendMessageYourself}
               isDisabled={isDisabled}
               isMessagesOneUserScreen={true}
+              token={token}
               dispatch={dispatch}
             />
           </>
@@ -98,7 +98,8 @@ const mapStateToProps = (state) => ({
   messageSendStatus: state.messages.messageSendStatus,
   isSendMessage: state.messages.isSendMessage,
   isSendMessageYourself: state.messages.isSendMessageYourself,
-  isDisabled: state.messages.isDisabled
+  isDisabled: state.messages.isDisabled,
+  token: state.auth.token
 });
 
 export default connect(mapStateToProps)(MessagesOneUserScreen);

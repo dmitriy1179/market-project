@@ -3,8 +3,9 @@ import API from "../../API";
 import { gql } from "graphql-request";
 import StatusResolver from "../../shared/components/statusResolver"
 import { useParams, Redirect } from "react-router-dom";
-import ReactTagInput from "@pathofdev/react-tag-input"
+import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
+import { connect } from "react-redux";
 
 const myAdOneFind = gql`
   query adFindOne($query: String) {
@@ -40,17 +41,15 @@ const editAd = gql`
   }
 `;
 
-const MyAdEditSreen = () => {
+const MyAdEditSreen = ({ dispatch, arrImages, status }) => {
   const { _id } = useParams()
   const [values, setValues] = React.useState(null);
-  const [status, setStatus] = React.useState("idle");
   const [isDelImage, setIsDelImage] = React.useState(false);
   const [isRequest, setIsRequest] = React.useState(true);
-  const [arrOldImages, setArrOldImages] = React.useState([])
 
   const searchUserAdOne = () => {
     try {
-      setStatus("searching");
+      dispatch({ type: "request/pending" });
         API.request(myAdOneFind, {
           query: JSON.stringify([
             {
@@ -62,24 +61,24 @@ const MyAdEditSreen = () => {
           const tags = ["sport", "entertainment", "health", "antiques", "technology"]
           tags.forEach(tag => tagsSet.add(tag))
           res.AdFind[0].tags = [...tagsSet]
-          setArrOldImages(res.AdFind[0].images === null ? [] : 
+          const arrayOldImages = (res.AdFind[0].images === null ? [] : 
             (res.AdFind[0].images.length === 0 ? [] : 
-              (res.AdFind[0].images[0].url === null ? [] :
-                (res.AdFind[0].images.filter(image => image.url !== null)))))
+              (res.AdFind[0].images.filter(image => image.url !== null))))
+          dispatch({ type: "arrImages/formed", payload: arrayOldImages });
           res.AdFind[0].images = []      
           setValues(res.AdFind[0]);
-          setStatus("idle");
-          console.log("arrOldImages", arrOldImages)
+          dispatch({ type: "request/finding" });
+          console.log("arrOldImages", arrayOldImages)
       });
     } catch (e) {
-      setStatus("rejected");
+      dispatch({ type: "request/rejected" });
     }  
   };
 
   const onClickDelete = (i) => {
-    arrOldImages.splice(i, 1);
+    arrImages.splice(i, 1);
+    dispatch({ type: "arrImages/formed", payload: arrImages });
     setIsDelImage(!isDelImage)
-    console.log("images", arrOldImages)
   }
 
   const onChange = (e) => {
@@ -105,55 +104,29 @@ const MyAdEditSreen = () => {
   }
 
   const onChangeInputImage = (e) => {
-    setStatus("searching");
-    const arrImages = [];
-    const arrLength = e.target.files.length
-    for (let i=0; i < e.target.files.length; i++) {
-      const formData = new FormData();
-      formData.append("photo", e.target.files[i]);
-      fetch(`http://marketplace.asmer.fs.a-level.com.ua/upload`, {
-        method: "POST",
-        headers: localStorage.token
-          ? { Authorization: "Bearer " + localStorage.token }
-          : {},
-        body: formData
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          arrImages.push({"_id": json._id})
-          console.log("arr", arrImages)
-          if (arrImages.length === arrLength) {
-            setStatus("idle");
-          } 
-        })
-    }
-    setValues((prev) => ({
-      ...prev,
-      "images": arrImages
-    }));
-    console.log("values", values)
+    dispatch({ type: "getArrImages/request", payload: e.target.files });
   };
 
   const onSubmit = (e) => {
-    if (arrOldImages.length !== 0) {
-      arrOldImages.forEach((image) => {
+    e.preventDefault();
+    if (arrImages.length !== 0) {
+      arrImages.forEach((image) => {
         const {_id: id} = image
         console.log("imageId", {_id:id})
         values.images.push({_id:id})
       })
       console.log("images", values.images)
     }
-    e.preventDefault();
     try {
-      setStatus("searching");
+      dispatch({ type: "request/pending" });
       console.log("values", values)
       API.request(editAd, values)
        .then((res) => {
-          console.log("res", res)
-          setStatus("resolved");
+          console.log("res", res);
+          dispatch({ type: "request/resolved" });
         });
     } catch (e) {
-      setStatus("rejected");
+      dispatch({ type: "request/rejected" });
     }  
   };
 
@@ -161,11 +134,11 @@ const MyAdEditSreen = () => {
     if (isRequest) {
       searchUserAdOne();
       setIsRequest(false);
-     }
-  }, [isDelImage])
+    }
+    return () => dispatch({ type: "request/reset" })
+  }, [])
 
   console.log(values, "result", values !== null && values.length !== 0);
-
 
   return (
     <div className="mt-3 flex-grow-1">
@@ -197,7 +170,7 @@ const MyAdEditSreen = () => {
               />
             </div>
           </div>
-          <div className="form-group row">
+          <div className="form-group row mb-1">
             <label className="col-sm-2 col-form-label">ImageInput</label>
             <div className="col-sm-10">
               <input
@@ -206,15 +179,16 @@ const MyAdEditSreen = () => {
                 placeholder="ImageInput"
                 name="imageInput"
                 onChange={onChangeInputImage}
+                disabled={status === "searching"}
                 multiple
               />
             </div>
-            <div className="d-flex justify-content-center flex-wrap">
-              {arrOldImages === null || arrOldImages.length === 0 ? null : (
-                arrOldImages[0].url === null ? null :
-                  arrOldImages.map((image, index) => (
+            <div className="d-flex justify-content-center flex-wrap ml-3">
+              {arrImages === null || arrImages.length === 0 ? null : (
+                arrImages[0].url === null ? null :
+                  arrImages.map((image, index) => (
                     image.url === null ? null :
-                      <div key={index} className="my-3 col-3 w-100 mx-auto p-3">
+                      <div key={index} className="mt-3 col-3 w-100 mx-auto px-3">
                         <div className="w-100">
                           <img src={`http://marketplace.asmer.fs.a-level.com.ua/${image.url}`}
                             className="img-fluid rounded w-100 h-100"
@@ -224,6 +198,7 @@ const MyAdEditSreen = () => {
                         <div className="d-flex justify-content-center">
                           <button type="button"
                             className="btn btn-outline-danger btn-sm my-3"
+                            disabled={status === "searching"}
                             onClick = {() => onClickDelete(index)}
                             >
                             Delete
@@ -285,4 +260,9 @@ const MyAdEditSreen = () => {
   )
 }
 
-export default MyAdEditSreen
+const mapStateToProps = (state) => ({
+  arrImages: state.images.arrImages,
+  status: state.images.status
+});
+
+export default connect(mapStateToProps)(MyAdEditSreen)

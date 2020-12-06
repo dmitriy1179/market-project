@@ -134,7 +134,6 @@ function* getMessageRequest(action) {
         const lastMessages = yield call(filterArrayMessages, messageFind, action.payload);
         yield put({ type: "lastMessages/array", payload: lastMessages})
         console.log("LastMessages", lastMessages)
- 
         yield delay(2000);
       }
       catch(e) {
@@ -151,9 +150,8 @@ function* getMessageRequest(action) {
           const lastMessages = yield call(filterArrayMessages, arrLastMessages, action.payload);
           console.log("lastMessages", lastMessages)
           yield put({ type: "lastMessages/array", payload: lastMessages})
-          yield delay(2000);
-
         }
+        yield delay(2000);
       }
       catch(e) {
         yield put({ type: "messageGetRequest/rejected" });
@@ -220,8 +218,8 @@ function* getOneUserMessageRequest(action) {
         console.log("LastMessageFind", lastMessageFind);
         if (lastMessageFind.length !== 0) {
           yield put({ type: "messageGetRequest/resolved", payload: messageData.concat(lastMessageFind) })
-          yield delay(2000);
         }
+        yield delay(2000);
       }
       catch(e) {
         yield put({ type: "messageGetRequest/rejected" });
@@ -241,4 +239,5 @@ export function* getOneUserMessageRequestSaga() {
     console.log("canceled", task.isCancelled());
   }
 }
+
 

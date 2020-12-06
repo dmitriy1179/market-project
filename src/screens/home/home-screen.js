@@ -40,8 +40,7 @@ const deleteAccountMutation = gql`
   }
 `;
 
-const HomeScreen = ({ dispatch }) => {
-  const token = localStorage.getItem("token")
+const HomeScreen = ({ dispatch, token }) => {
   const { sub } = jwt_decode(token);
   const { id } = sub
   const [result, setResult] = React.useState(null);
@@ -78,12 +77,11 @@ const HomeScreen = ({ dispatch }) => {
     } catch (e) {
       setStatus("rejected");
     }     
-  }
+   }
 
   React.useEffect(() => {
     searchUserData()
   }, [])
-
 
   console.log(result, "result", result !== null && result.length !== 0);
 
@@ -94,28 +92,27 @@ const HomeScreen = ({ dispatch }) => {
         status={status}
       >
         {result === null ? null : 
-          <div className="border rounded my-3 mx-auto w-75 p-3 d-flex">
-            <div className="mr-2" style={{width:"400px", height:"300px"}}>
+          <div className="border rounded my-5 mx-auto w-75 p-3 d-flex bg-light">
+            <div className="mr-3 align-self-center" style={{width:"400px", height:"300px"}}>
               {result.avatar === null ? 
                 <img src={avatar}
-                  className="img-fluid rounded w-100 h-100"
+                  className="rounded w-100 h-100"
                   alt="picture" 
-                  style={{objectFit: "cover"}}
                 /> 
                 : 
                 <img src={`http://marketplace.asmer.fs.a-level.com.ua/${result.avatar.url}`}
-                  className="img-fluid rounded w-100 h-100"
+                  className="rounded w-100 h-100"
                   alt="picture" 
-                  style={{objectFit: "cover"}}
+                  style={{objectFit: "fill"}}
                 />
               }
             </div>
-            <div className="w-100 d-flex flex-column" style={{fontSize: "2rem"}}>
+            <div className="w-100 d-flex flex-column border rounded bg-white" style={{fontSize: "2rem"}}>
               <div className="d-flex">
                 <div className="mt-1 ml-3">
                   Login:
                 </div>
-                <div className="mt-1 ml-2 font-italic">
+                <div className="mt-1 mx-2 font-italic">
                   {result.login}
                 </div>
               </div>
@@ -123,7 +120,7 @@ const HomeScreen = ({ dispatch }) => {
                 <div className="ml-3">
                   Nick:
                 </div>
-                <div className="ml-2 font-italic">
+                <div className="mx-2 font-italic">
                   {result.nick}
                 </div>
               </div>
@@ -131,7 +128,7 @@ const HomeScreen = ({ dispatch }) => {
                 <div className="ml-3">
                   Phones:
                 </div>
-                <div className="font-italic text-justify text-break">
+                <div className="font-italic text-justify text-break mr-2">
                   {result.phones === null ? null :
                     (result.phones.length === 0 ? null :
                       result.phones.map((phone, index) => (
@@ -146,7 +143,7 @@ const HomeScreen = ({ dispatch }) => {
                 <div className="ml-3">
                   Addresses:
                 </div>
-                <div className="font-italic text-justify text-break">
+                <div className="font-italic text-justify text-break mr-2">
                   <ul>
                     {result.addresses === null ? null :
                       (result.addresses.length === 0 ? null :
@@ -188,4 +185,8 @@ const HomeScreen = ({ dispatch }) => {
   )
 };
 
-export default connect()(HomeScreen);
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+});
+
+export default connect(mapStateToProps)(HomeScreen);

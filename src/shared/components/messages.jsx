@@ -2,10 +2,9 @@ import React from "react";
 import StatusResolver from "../components/statusResolver"
 import jwt_decode from "jwt-decode";
 
-const AddMessage = ({ dispatch, userId, name, messageSendStatus, isSendMessage, isDisabled, isSendMessageYourself, isMessagesOneUserScreen }) => {
+const AddMessage = ({ dispatch, userId, name, messageSendStatus, isSendMessage, isDisabled, isSendMessageYourself, isMessagesOneUserScreen, token}) => {
   const [values, setValues] = React.useState({"to": {"_id": userId}})
   const textareaElRef = React.useRef(null);
-  const token = localStorage.getItem("token")
   const { sub } = jwt_decode(token);
   const { id } = sub;
 

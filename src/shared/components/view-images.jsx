@@ -14,7 +14,7 @@ const ViewImages = ({ images }) => {
         <img src={`http://marketplace.asmer.fs.a-level.com.ua/${images[count].url}`}
           className="img-fluid rounded w-100 h-100"
           alt="picture" 
-          />
+        />
       </div>
       <div className="d-flex justify-content-between">
         <button type="button"
