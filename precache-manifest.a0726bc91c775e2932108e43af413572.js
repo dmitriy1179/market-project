@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a236e4e6fda3eba9a3e759945eece3fe",
+    "revision": "b9fbe6bb51c2d66ab7da97216f260b79",
     "url": "/market-project/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/market-project/static/css/2.51692fcd.chunk.css"
   },
   {
-    "revision": "79f09b801212fd29808c",
+    "revision": "9a91cb88fb81c0c30f6e",
     "url": "/market-project/static/css/main.0cb2e7f6.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/market-project/static/js/2.83291b83.chunk.js"
   },
   {
-    "revision": "79f09b801212fd29808c",
-    "url": "/market-project/static/js/main.0aba115d.chunk.js"
+    "revision": "9a91cb88fb81c0c30f6e",
+    "url": "/market-project/static/js/main.b30b020d.chunk.js"
   },
   {
     "revision": "8bcf25aeb85323b6430a",
