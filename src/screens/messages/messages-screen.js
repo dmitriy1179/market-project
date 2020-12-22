@@ -63,7 +63,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                               {elem.to.nick || elem.to.login}
                             </div>
                             <div className="col-7 d-flex align-items-center font-italic text-break text-justify" style={{fontSize:"18px"}}>
-                              "{elem.text}"
+                              to: "{elem.text}"
                             </div>
                             <div className="col-2 d-flex align-items-center justify-content-center" style={{fontSize:"14px"}}>
                               {new Date(elem.createdAt/1).toLocaleString()}
@@ -95,7 +95,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                               {elem.owner.nick || elem.owner.login}
                             </div>
                             <div className="col-7 d-flex align-items-center font-italic text-break text-justify" style={{fontSize:"18px"}}>
-                              "{elem.text}"
+                              from: "{elem.text}"
                             </div>
                             <div className="col-2 d-flex align-items-center justify-content-center" style={{fontSize:"14px"}}>
                               {new Date(elem.createdAt/1).toLocaleString()}

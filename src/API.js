@@ -1,7 +1,9 @@
 import { GraphQLClient } from "graphql-request";
 
-export const ENDPOINT =
-  "http://marketplace.asmer.fs.a-level.com.ua/graphql";
+const NO_CORS = "https://cors-anywhere.herokuapp.com/";
+
+const ENDPOINT = 
+  `${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/graphql`;
 
 const client = new GraphQLClient(ENDPOINT);
 

@@ -92,10 +92,10 @@ async function findAdsDataRequest (value, skip, limit) {
     return adsData
 };
 
-function* findAdsRequest(action) {
+/*function* findAdsRequest(action) {
+  yield put ({ type: "findRequest/pending" })
   const skip = yield select(getSkip)
   if (action.payload.value === null) {
-    yield put ({ type: "findRequest/pending" })
     try {
       const { AdCount, AdFind } = yield call(findAllAdsDataRequest, skip, action.payload.limit);
       console.log("AdCount", AdCount);
@@ -109,7 +109,6 @@ function* findAdsRequest(action) {
       yield put({ type: "findRequest/rejected" });
     }
   } else {
-    yield put ({ type: "findRequest/pending" })
     try {
       const { AdCount } = yield call(findAdsCountRequest, action.payload.value);
       console.log("AdCount", AdCount);
@@ -124,9 +123,43 @@ function* findAdsRequest(action) {
     catch(e) {
       yield put({ type: "findRequest/rejected" });
     }
+  }
+}*/
 
+function* findAdsRequest(action) {
+  yield put ({ type: "findRequest/pending" })
+  const skip = yield select(getSkip)
+  if (action.payload.value === null) {
+    try {
+      const { AdCount, AdFind } = yield call(findAllAdsDataRequest, skip, action.payload.limit);
+      console.log("AdCount", AdCount);
+      console.log("AdFind", AdFind);
+      yield put({ type: "findRequest/resolved", payload: {
+        adsData: AdFind,
+        adsCount: AdCount
+      }});
+    }
+    catch(e) {
+      yield put({ type: "findRequest/rejected" });
+    }
+  } else {
+    try {
+      const arrPromise = yield Promise.all([yield call(findAdsCountRequest, action.payload.value), 
+        yield call(findAdsDataRequest, action.payload.value, skip, action.payload.limit)]) 
+      console.log("arrPromise", arrPromise);
+      console.log("AdCount", arrPromise[0].AdCount);
+      console.log("AdFind", arrPromise[1].AdFind);
+      yield put({ type: "findRequest/resolved", payload: {
+        adsData: arrPromise[1].AdFind,
+        adsCount: arrPromise[0].AdCount
+      }});
+    }
+    catch(e) {
+      yield put({ type: "findRequest/rejected" });
+    }
   }
 }
+
 
 export function* findAdsRequestSaga() {
   yield takeLatest("adsFind/request", findAdsRequest)
@@ -208,10 +241,10 @@ async function findUserAdsDataRequest (id, value, skip, limit) {
   return myAllAdsData
 };
 
-function* findUserAdsRequest(action) {
+/*function* findUserAdsRequest(action) {
+  yield put ({ type: "findRequest/pending" })
   const skip = yield select(getSkip)
   if (action.payload.value === null) {
-    yield put ({ type: "findRequest/pending" })
     try {
       const { AdCount } = yield call(findUserAllAdsCountRequest, action.payload.id);
       console.log("AdCount", AdCount);
@@ -226,7 +259,6 @@ function* findUserAdsRequest(action) {
       yield put({ type: "findRequest/rejected" });
     }
   } else {
-    yield put ({ type: "findRequest/pending" })
     try {
       const { AdCount } = yield call(findUserAdsCountRequest, action.payload.id, action.payload.value);
       console.log("AdCount", AdCount);
@@ -237,6 +269,45 @@ function* findUserAdsRequest(action) {
         adsCount: AdCount
       }});
 
+    }
+    catch(e) {
+      yield put({ type: "findRequest/rejected" });
+    }
+  }
+}*/
+
+function* findUserAdsRequest(action) {
+  yield put ({ type: "findRequest/pending" })
+  const skip = yield select(getSkip)
+  if (action.payload.value === null) {
+    try {
+      const arrPromise = yield Promise.all([
+        yield call(findUserAllAdsCountRequest, action.payload.id),
+        yield call(findUserAllAdsDataRequest, action.payload.id, skip, action.payload.limit)
+      ])
+      console.log("arrPromise", arrPromise);
+      console.log("AdCount", arrPromise[0].AdCount);
+      console.log("AdFind", arrPromise[1].AdFind);
+      yield put({ type: "findRequest/resolved", payload: {
+        adsData: arrPromise[1].AdFind,
+        adsCount: arrPromise[0].AdCount
+      }});
+    }
+    catch(e) {
+      yield put({ type: "findRequest/rejected" });
+    }
+  } else {
+    try {
+      const arrPromise = yield Promise.all([
+        yield call(findUserAdsCountRequest, action.payload.id, action.payload.value),
+        yield call(findUserAdsDataRequest, action.payload.id, action.payload.value, skip, action.payload.limit)      ])
+      console.log("arrPromise", arrPromise);
+      console.log("AdCount", arrPromise[0].AdCount);
+      console.log("AdFind", arrPromise[1].AdFind);
+       yield put({ type: "findRequest/resolved", payload: {
+        adsData: arrPromise[1].AdFind,
+        adsCount: arrPromise[0].AdCount
+      }});
     }
     catch(e) {
       yield put({ type: "findRequest/rejected" });

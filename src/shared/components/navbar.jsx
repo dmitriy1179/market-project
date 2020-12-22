@@ -18,7 +18,7 @@ const NavBar = ({ isLoggedIn, isNewUser, dispatch }) => {
             (<ul className="navbar-nav">
               <li className="nav-item">
                 <Link className="nav-link" to="/">
-                  Home
+                  My profile
                 </Link>
               </li>
               <li className="nav-item">
