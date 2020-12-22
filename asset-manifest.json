@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/market-project/static/css/main.0cb2e7f6.chunk.css",
+    "main.js": "/market-project/static/js/main.0aba115d.chunk.js",
+    "main.js.map": "/market-project/static/js/main.0aba115d.chunk.js.map",
+    "runtime~main.js": "/market-project/static/js/runtime~main.79ec4e3a.js",
+    "runtime~main.js.map": "/market-project/static/js/runtime~main.79ec4e3a.js.map",
+    "static/css/2.51692fcd.chunk.css": "/market-project/static/css/2.51692fcd.chunk.css",
+    "static/js/2.83291b83.chunk.js": "/market-project/static/js/2.83291b83.chunk.js",
+    "static/js/2.83291b83.chunk.js.map": "/market-project/static/js/2.83291b83.chunk.js.map",
+    "index.html": "/market-project/index.html",
+    "precache-manifest.202ffc7422a1985a1894e9951f683700.js": "/market-project/precache-manifest.202ffc7422a1985a1894e9951f683700.js",
+    "service-worker.js": "/market-project/service-worker.js",
+    "static/css/2.51692fcd.chunk.css.map": "/market-project/static/css/2.51692fcd.chunk.css.map",
+    "static/css/main.0cb2e7f6.chunk.css.map": "/market-project/static/css/main.0cb2e7f6.chunk.css.map",
+    "static/media/exchange1.png": "/market-project/static/media/exchange1.9dc251b4.png"
+  }
+}
