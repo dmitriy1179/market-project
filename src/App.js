@@ -31,7 +31,7 @@ function App() {
           Stock exchange
         </div>
       </header>
-      <Router>
+      <Router basename="/market-project">
         <Navbar />
         <Switch>
           <ProtectedRoute exact path="/" >
