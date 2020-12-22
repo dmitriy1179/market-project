@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/market-project/static/css/main.0cb2e7f6.chunk.css",
-    "main.js": "/market-project/static/js/main.0aba115d.chunk.js",
-    "main.js.map": "/market-project/static/js/main.0aba115d.chunk.js.map",
-    "runtime~main.js": "/market-project/static/js/runtime~main.79ec4e3a.js",
-    "runtime~main.js.map": "/market-project/static/js/runtime~main.79ec4e3a.js.map",
-    "static/css/2.51692fcd.chunk.css": "/market-project/static/css/2.51692fcd.chunk.css",
-    "static/js/2.83291b83.chunk.js": "/market-project/static/js/2.83291b83.chunk.js",
-    "static/js/2.83291b83.chunk.js.map": "/market-project/static/js/2.83291b83.chunk.js.map",
-    "index.html": "/market-project/index.html",
-    "precache-manifest.3ce787e43ab8e369a3307e25a4086ae4.js": "/market-project/precache-manifest.3ce787e43ab8e369a3307e25a4086ae4.js",
-    "service-worker.js": "/market-project/service-worker.js",
-    "static/css/2.51692fcd.chunk.css.map": "/market-project/static/css/2.51692fcd.chunk.css.map",
-    "static/css/main.0cb2e7f6.chunk.css.map": "/market-project/static/css/main.0cb2e7f6.chunk.css.map",
-    "static/media/exchange1.png": "/market-project/static/media/exchange1.9dc251b4.png"
+    "main.css": "/market-project/login/static/css/main.0cb2e7f6.chunk.css",
+    "main.js": "/market-project/login/static/js/main.0aba115d.chunk.js",
+    "main.js.map": "/market-project/login/static/js/main.0aba115d.chunk.js.map",
+    "runtime~main.js": "/market-project/login/static/js/runtime~main.1ec185b4.js",
+    "runtime~main.js.map": "/market-project/login/static/js/runtime~main.1ec185b4.js.map",
+    "static/css/2.51692fcd.chunk.css": "/market-project/login/static/css/2.51692fcd.chunk.css",
+    "static/js/2.83291b83.chunk.js": "/market-project/login/static/js/2.83291b83.chunk.js",
+    "static/js/2.83291b83.chunk.js.map": "/market-project/login/static/js/2.83291b83.chunk.js.map",
+    "index.html": "/market-project/login/index.html",
+    "precache-manifest.190cb3c77bcea8f12dca5154b9b38b0b.js": "/market-project/login/precache-manifest.190cb3c77bcea8f12dca5154b9b38b0b.js",
+    "service-worker.js": "/market-project/login/service-worker.js",
+    "static/css/2.51692fcd.chunk.css.map": "/market-project/login/static/css/2.51692fcd.chunk.css.map",
+    "static/css/main.0cb2e7f6.chunk.css.map": "/market-project/login/static/css/main.0cb2e7f6.chunk.css.map",
+    "static/media/exchange1.png": "/market-project/login/static/media/exchange1.9dc251b4.png"
   }
 }
