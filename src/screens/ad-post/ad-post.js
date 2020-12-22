@@ -6,6 +6,7 @@ import ReactTagInput from "@pathofdev/react-tag-input"
 import "@pathofdev/react-tag-input/build/index.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { NO_CORS } from "../../API"
 
 const postAd = gql`
   mutation post($title: String!, $description: String, $images: [ImageInput], $tags: [String], $address: String, $price: Float!) {
@@ -133,7 +134,7 @@ const PostAdUser = ({ dispatch, arrImages, status }) => {
                 image.url === null ? null :
                   <div key={index} className="mt-3 col-3 w-100 mx-auto px-3">
                     <div className="w-100">
-                      <img src={`http://marketplace.asmer.fs.a-level.com.ua/${image.url}`}
+                      <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${image.url}`}
                         className="img-fluid rounded w-100 h-100"
                         alt="picture" 
                         />

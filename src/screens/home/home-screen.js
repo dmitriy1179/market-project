@@ -6,6 +6,7 @@ import avatar from "../../shared/images/avatar.png"
 import { Link } from "react-router-dom";
 import StatusResolver from "./../../shared/components/statusResolver"
 import { connect } from "react-redux";
+import { NO_CORS } from "../../API"
 
 const userData = gql`
   query userFind($query: String) {
@@ -100,7 +101,7 @@ const HomeScreen = ({ dispatch, token }) => {
                   alt="picture" 
                 /> 
                 : 
-                <img src={`http://marketplace.asmer.fs.a-level.com.ua/${result.avatar.url}`}
+                <img src={`${NO_CORS}/http://marketplace.asmer.fs.a-level.com.ua/${result.avatar.url}`}
                   className="rounded w-100 h-100"
                   alt="picture" 
                   style={{objectFit: "fill"}}

@@ -6,6 +6,7 @@ import { useParams, Redirect } from "react-router-dom";
 import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
 import { connect } from "react-redux";
+import { NO_CORS } from "../../API"
 
 const userData = gql`
   query userFind($query: String) {
@@ -109,7 +110,7 @@ const ProfileEditSreen = ({ token }) => {
     setStatus("searching");
     const formData = new FormData();
     formData.append("photo", e.target.files[0]);
-    fetch(`http://marketplace.asmer.fs.a-level.com.ua/upload`, {
+    fetch(`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/upload`, {
       method: "POST",
       headers: token
         ? { Authorization: "Bearer " + token }
@@ -221,7 +222,7 @@ const ProfileEditSreen = ({ token }) => {
                 <div className="col-3 mx-auto pt-3">
 
                   <div className="w-100">
-                    <img src={`http://marketplace.asmer.fs.a-level.com.ua/${values.avatar.url}`}
+                    <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${values.avatar.url}`}
                       className="img-fluid rounded w-100 h-100"
                       alt="picture" 
                       />

@@ -1,12 +1,14 @@
 import { takeLatest, put, call, select } from "redux-saga/effects";
 import { getArrImages } from "./selectors"
 import { getToken } from "../auth/selectors"
+import { NO_CORS } from "../../API"
 
 async function imageDataRequest (file, token) {
   const formData = new FormData();
   formData.append("photo", file);
   console.log("file", file);
-  const imageJson = await fetch(`http://marketplace.asmer.fs.a-level.com.ua/upload`, {
+  const imageJson = await fetch(
+    `${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/upload`, {
     method: "POST",
     headers: token
       ? { Authorization: "Bearer " + token }

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import StatusResolver from "./../../shared/components/statusResolver";
 import { connect } from "react-redux";
 import avatar from "../../shared/images/avatar.png"
+import { NO_CORS } from "../../API"
 
 const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesData }) => {
   const token = localStorage.getItem("token")
@@ -52,7 +53,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                                   style={{objectFit: "cover", width: "50px", height: "50px"}}
                                 /> 
                                 : 
-                                <img src={`http://marketplace.asmer.fs.a-level.com.ua/${elem.to.avatar.url}`}
+                                <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${elem.to.avatar.url}`}
                                   className="img-fluid rounded-circle"
                                   alt="picture" 
                                   style={{objectFit: "cover", width: "50px", height: "50px"}}
@@ -84,7 +85,7 @@ const MessagesScreen = ({ dispatch, messageData, messageGetStatus, lastMessagesD
                                   style={{objectFit: "cover", width: "50px", height: "50px"}}
                                 /> 
                                 : 
-                                <img src={`http://marketplace.asmer.fs.a-level.com.ua/${elem.owner.avatar.url}`}
+                                <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${elem.owner.avatar.url}`}
                                   className="img-fluid rounded-circle"
                                   alt="picture" 
                                   style={{objectFit: "cover", width: "50px", height: "50px"}}

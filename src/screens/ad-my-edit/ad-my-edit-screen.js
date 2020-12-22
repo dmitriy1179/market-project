@@ -6,6 +6,7 @@ import { useParams, Redirect } from "react-router-dom";
 import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";
 import { connect } from "react-redux";
+import { NO_CORS } from "../../API"
 
 const myAdOneFind = gql`
   query adFindOne($query: String) {
@@ -190,7 +191,7 @@ const MyAdEditSreen = ({ dispatch, arrImages, status }) => {
                     image.url === null ? null :
                       <div key={index} className="mt-3 col-3 w-100 mx-auto px-3">
                         <div className="w-100">
-                          <img src={`http://marketplace.asmer.fs.a-level.com.ua/${image.url}`}
+                          <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${image.url}`}
                             className="img-fluid rounded w-100 h-100"
                             alt="picture" 
                             />

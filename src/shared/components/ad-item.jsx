@@ -1,5 +1,6 @@
 import React from "react";
 import camera from "../../shared/images/camera.png"
+import { NO_CORS } from "../../API"
 
 const AdItem = ({_id, images, title, createdAt, price, owner, children}) => {
   return (
@@ -19,7 +20,7 @@ const AdItem = ({_id, images, title, createdAt, price, owner, children}) => {
             style={{objectFit: "cover"}}
           /> 
           :
-          <img src={`http://marketplace.asmer.fs.a-level.com.ua/${images[0].url}`}
+          <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${images[0].url}`}
             className="img-fluid rounded w-100 h-100"
             alt="picture" 
             style={{objectFit: "cover"}}

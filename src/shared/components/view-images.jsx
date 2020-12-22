@@ -1,4 +1,5 @@
 import React from "react";
+import { NO_CORS } from "../../API"
 
 const ViewImages = ({ images }) => {
   const [count, setCount] = React.useState(0);
@@ -11,7 +12,7 @@ const ViewImages = ({ images }) => {
   return (
     <div className="border rounded my-3 w-75 mx-auto p-3">
       <div className="w-100" style={{height:"750px"}}>
-        <img src={`http://marketplace.asmer.fs.a-level.com.ua/${images[count].url}`}
+        <img src={`${NO_CORS}http://marketplace.asmer.fs.a-level.com.ua/${images[count].url}`}
           className="img-fluid rounded w-100 h-100"
           alt="picture" 
         />
